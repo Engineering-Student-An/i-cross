@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:replace="~{fragments/header :: header}"></head>
+<body>
+
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+<div>
+
+    <script th:inline="javascript">
+        window.onload = function (){
+            window.location.href = [[${nextUrl}]];
+            alert([[${errorMessage}]]);
+        }
+    </script>
+    <br>
+
+</div>
+
+</body>
+</html>

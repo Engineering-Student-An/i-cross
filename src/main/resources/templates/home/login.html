@@ -1,0 +1,190 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+<style>
+    body {
+        background-image: url('/images/id.png');
+        background-repeat: no-repeat; /* 이미지가 반복되지 않도록 설정 */
+        background-position: center center; /* 이미지가 중앙에 위치하도록 설정 */
+        background-attachment: fixed; /* 배경 이미지가 고정되도록 설정 */
+
+        font-family: 'Noto Sans KR', Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        overflow-y: auto;
+        min-height: 100vh;
+        animation: fadeIn 2s ease-in-out forwards;
+        text-align: center;
+    }
+
+    @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+
+    .container {
+        text-align: center;
+        color: black;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        padding: 20px;
+        background: white;
+        backdrop-filter: blur(10px);
+        width: 60%;
+        margin: 50px auto;
+        min-height: 500px;
+        opacity: 0.95;
+    }
+    .footer {
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        height: 50px; /* 필요에 따라 조절하세요 */
+        line-height: 50px; /* footer의 높이와 일치시켜서 텍스트를 수직 중앙으로 맞춤 */
+        animation: float 2s ease-in-out infinite;
+        margin-top: 50px;
+    }
+    .footer p {
+        margin-bottom: 5px; /* 필요에 따라 값 조절 */
+    }
+    .Text h1 {
+        font-size: 2.5em;
+        margin: 0 auto;
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .experience {
+        height: 10px;
+        font-size: 1.2em;
+        letter-spacing: .1em;
+    }
+    .line {
+        margin-bottom: 10px; /* 각 줄 사이의 간격을 20px로 설정 */
+        font-size: 1.2em;
+        letter-spacing: .1em;
+    }
+
+    a img {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        margin-top: 40px;
+        border-radius: 10px;
+    }
+
+    a:hover img {
+        transform: scale(1.1);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+    }
+
+    .logo {
+        margin-top: 40px;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+    }
+
+    section {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        opacity: 0;
+        transition: opacity 1.5s ease-in-out;
+    }
+</style>
+<body>
+<div class="container" style="width: 40%">
+    <div class="Text" style="margin-bottom: 80px">
+        <h1>I-Cross</h1>
+        <p class="experience">
+            <div id="line1" class="line"></div><br>
+            <div id="line2" class="line"></div>
+        </p>
+        <a href="/oauth2/authorization/kakao">
+            <img src="/images/kakao_login_medium_narrow.png" alt="로그인 버튼">
+        </a>
+    </div>
+    <div class="logo">
+        <img src="/images/logo.png" alt="logo" width="250px">
+    </div>
+</div>
+<div class="footer">
+    <p>더 알아보려면 스크롤을 내리세요</p>
+</div>
+
+<section>
+    <div class="container" style="opacity: 0.85">
+        <div class="fade-in-text">
+            <h1 style="text-align: center; margin-bottom: 50px">I-Class 자동 연동</h1>
+            <h4>사용자의 I-Class 계정 정보를 입력받아 자동으로 I-Class의 정보를 불러옵니다.</h4>
+            <h4>불러온 정보는 과제, 웹강, 퀴즈 등의 완료 여부를 포함합니다.</h4>
+            <h4>해당 정보를 토대로 모든 서비스를 제공합니다!</h4>
+        </div>
+    </div>
+
+</section>
+<section>
+    <div class="container" style="opacity: 0.85">
+        <div class="fade-in-text">
+            <h1 style="text-align: center; margin-bottom: 50px">AI가 추천해주는 오늘의 스케줄</h1>
+            <h4>AI가 오늘의 강의, 남은 과제, 웹강 등을 파악하여 오늘 하루의 스케줄을 추천해줍니다.</h4>
+            <h4>추천해 준 스케줄을 기반으로 구체화 및 사용자화 하여 스케줄을 확정합니다.</h4>
+            <h4>확정된 스케줄은 카카오톡 메시지를 통해서 받아 볼 수 있습니다!</h4>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="container" style="opacity: 0.85">
+        <div class="fade-in-text">
+            <h1 style="text-align: center; margin-bottom: 50px">마감기한 알림 서비스</h1>
+            <h4>AI가 과제, 웹강, 퀴즈 등의 마감기한에 대해 메일을 통해서 사용자에게 알림을 보내줍니다.</h4>
+            <h4>당일, 하루 전, 일주일 전 등 알림을 받을 주기를 설정할 수 있습니다.</h4>
+            <h4>사용자가 선택한 말투로 AI가 알려주는 마감기한 메일을 받아보세요!</h4>
+        </div>
+    </div>
+</section>
+<script>
+    function typeEffect(element, text, delay) {
+        let idx = 0;
+        setTimeout(() => {
+            let timer = setInterval(() => {
+                element.textContent += text.charAt(idx);
+                idx++;
+                if (idx === text.length) clearInterval(timer);
+            }, 70);
+        }, delay);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const line1 = document.getElementById('line1');
+        const line2 = document.getElementById('line2');
+
+        typeEffect(line1, "당신의 대학 생활을 한 단계 업그레이드 할 시간입니다!", 0);
+        typeEffect(line2, "I-Cross로 더욱 효율적이고 맞춤화된 일정 관리를 시작하세요!", 2100);
+
+        const sections = document.querySelectorAll('section');
+
+        const revealSection = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    observer.unobserve(entry.target); // 섹션이 한 번 보여지면 관찰을 중단합니다.
+                }
+            });
+        };
+
+        const sectionObserver = new IntersectionObserver(revealSection, {
+            threshold: 0.5 // 섹션의 50%가 보일 때 페이드인 효과를 적용합니다.
+        });
+
+        sections.forEach(section => {
+            sectionObserver.observe(section); // 각 섹션을 관찰 대상으로 추가합니다.
+        });
+    });
+</script>
+
+</body>
+</html>

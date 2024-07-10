@@ -1,0 +1,176 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+
+<style>
+    body {
+        background: #f4f7f6;
+        font-family: 'Noto Sans KR', Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .grid-container {
+        margin: 0 auto;
+        /* 좌우 여백을 자동으로 조정하여 수평 가운데 정렬 */
+        margin-top: 30px;
+        margin-bottom: 30px;
+        /* 위쪽 여백 유지 */
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 10px;
+        width: 70%;
+        max-width: 1000px;
+        height: auto; /* 높이를 60vh로 조정하여 화면에 맞게 조정 */
+        max-height: 700px; /* 최대 높이를 700px로 설정 */
+        position: relative;
+        opacity: 0.95;
+    }
+
+    .grid-item {
+        position: relative;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        display: flex;
+        flex-direction: column;
+        align-items: right;
+        justify-content: center;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+        text-align: right;
+    }
+
+    .grid-item img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin-bottom: 10px;
+
+        /* 사진 아래에 여백 추가 */
+    }
+
+    .keyword {
+        color: #000;
+        font-size: 1.3em;
+        font-weight: bold;
+        background-color: transparent;
+    }
+
+    .select-box {
+        position: absolute;
+        bottom: -30px;
+        right: 0;
+        width: 100px;
+        background-color: #ccc;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .options {
+        display: none;
+        position: absolute;
+        bottom: calc(100% + 5px);
+        right: 0;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 100px;
+        z-index: 10;
+    }
+
+    .options div {
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    .options div:hover {
+        background-color: #f0f0f0;
+    }
+
+    .grid-item:hover .select-box {
+        display: flex;
+    }
+
+    .grid-item:hover .options {
+        display: block;
+    }
+</style>
+<body>
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+<div>
+    <form id="style-form" action="/style/add" method="post">
+        <input type="hidden" id="style-input" name="style" value="">
+    </form>
+
+    <div class="grid-container">
+        <div class="grid-item">
+            <div class="keyword">연인</div>
+            <img src="/images/couple.jpg" alt="연인">
+            <div class="select-box">
+                <div class="options">
+                    <div onclick="sendStyle('남자친구')">남자친구</div>
+                    <div onclick="sendStyle('여자친구')">여자친구</div>
+                </div>
+            </div>
+        </div>
+        <div class="grid-item">
+            <div class="keyword">친구</div>
+            <img src="/images/friend.jpg" alt="친구">
+            <div class="select-box">
+                <div class="options">
+                    <div onclick="sendStyle('친구')">친구</div>
+                    <div onclick="sendStyle('선배')">선배</div>
+                    <div onclick="sendStyle('후배')">후배</div>
+                </div>
+            </div>
+        </div>
+        <div class="grid-item">
+            <div class="keyword">가족</div>
+            <img src="/images/family.jpg" alt="가족">
+            <div class="select-box">
+                <div class="options">
+                    <div onclick="sendStyle('엄마')">엄마</div>
+                    <div onclick="sendStyle('아빠')">아빠</div>
+                    <div onclick="sendStyle('친척')">친척</div>
+                </div>
+            </div>
+        </div>
+        <div class="grid-item">
+            <div class="keyword">연예인</div>
+            <img src="/images/연예인.png" alt="연예인">
+            <div class="select-box">
+                <div class="options">
+                    <div onclick="sendStyle('아이돌(여)')">아이돌(여)</div>
+                    <div onclick="sendStyle('아이돌(남)')">아이돌(남)</div>
+                </div>
+            </div>
+        </div>
+        <div class="grid-item">
+            <div class="keyword">교수</div>
+            <img src="/images/professor.jpg" alt="교수">
+            <div class="select-box">
+                <div class="options">
+                    <div onclick="sendStyle('교수')">교수</div>
+                    <div onclick="sendStyle('조교')">조교</div>
+                </div>
+            </div>
+        </div>
+        <div class="grid-item">
+            <div class="keyword">기본</div>
+            <div onclick="sendStyle('기본')">
+                <img src="/images/gpt.png" alt="기본">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    function sendStyle(style) {
+        document.getElementById('style-input').value = style;
+        document.getElementById('style-form').submit();
+    }
+</script>
+
+</html>

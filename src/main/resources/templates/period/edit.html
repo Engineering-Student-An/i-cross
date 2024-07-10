@@ -1,0 +1,178 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+
+<style>
+  body {
+    background: #f4f7f6;
+    font-family: 'Noto Sans KR', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  .container {
+    width: 80%;
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    opacity: 0.95;
+  }
+  .notice {
+    text-align: center;
+    font-size: 35px;
+    color: #333;
+  }
+
+  .circle-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+  }
+  .circle {
+    width: 130px;
+    height: 130px;
+    background-color: #ddd;
+    border-radius: 50%;
+    margin: 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    color: #333;
+    cursor: pointer;
+  }
+
+  .circle.selected {
+    background-image: url("/images/dragon.jpeg");
+    background-size: cover; /* 배경 이미지를 원의 크기에 맞춤 */
+    background-position: center; /* 배경 이미지를 가운데에 위치시킴 */
+    color: whitesmoke;
+  }
+
+  #customInput {
+    display: none;
+    margin-top: 30px;
+    text-align: center;
+  }
+
+  #customInput.visible {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #customInput input[type="text"] {
+    width: 250px;
+    height: 30px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+
+  #customInput button {
+    padding: 7px 15px;
+    background-color: #004080;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .submit-container {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .submit-container button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+</style>
+<body>
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+<div class="container">
+  <div class="notice" style="margin-top:20px">공지주기를 선택해주세요</div><br><br>
+
+  <div class="circle-container">
+    <div class="circle" onclick="toggleCircle(this)">D-0</div>
+    <div class="circle" onclick="toggleCircle(this)">D-1</div>
+    <div class="circle" onclick="toggleCircle(this)">D-2</div>
+    <div class="circle" onclick="toggleCircle(this)">D-3</div>
+    <div class="circle" onclick="toggleCircle(this); toggleCustomInput()">직접입력</div>
+  </div>
+  <br><br><br><br>
+  <form id="selectionForm" action="/period/edit" method="post">
+    <input type="hidden" name="selectedValues" id="selectedValues">
+    <div id="customInput">
+      <input type="text" id="customTextInput" placeholder="직접 입력(숫자만 입력해 주세요)">
+      <button type="button" onclick="submitCustomInput()">입력</button>
+    </div>
+  </form>
+
+  <div class="submit-container">
+    <button type="submit" form="selectionForm" onclick="submitForm()">완료</button>
+  </div>
+</div>
+</body>
+
+<script>
+  var isInputVisible = false;
+  var selectedValues = [];
+
+  function toggleCircle(element) {
+    var value = element.innerText.replace("D-", ""); // "D-" 제거
+    if (element.classList.contains('selected')) {
+      element.classList.remove('selected');
+      selectedValues = selectedValues.filter(v => v !== value);
+    } else {
+      element.classList.add('selected');
+      selectedValues.push(value);
+    }
+  }
+
+  function toggleCustomInput() {
+    var customInput = document.getElementById('customInput');
+    customInput.classList.toggle('visible');
+    isInputVisible = !isInputVisible;
+  }
+
+  function submitCustomInput() {
+    var input = document.getElementById('customTextInput');
+    var value = input.value.trim();
+    if (value) {
+      selectedValues.push(value);
+      input.value = '';
+      var customInput = document.getElementById('customInput');
+      customInput.classList.remove('visible');
+      isInputVisible = false;
+    }
+  }
+
+  function submitForm() {
+    document.getElementById('selectedValues').value = JSON.stringify(selectedValues);
+
+    var selectedValuesString = document.getElementById('selectedValues').value;
+    fetch('/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: selectedValuesString,
+    })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch((error) => {
+              console.error('Error:', error);
+            });
+  }
+</script>
+
+</html>

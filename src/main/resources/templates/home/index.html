@@ -1,0 +1,283 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+<style>
+    body {
+        background: #f4f7f6;
+        font-family: 'Noto Sans KR', Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        width: 80%;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        position: relative; /* 추가 */
+        opacity: 0.95;
+    }
+
+    h2 {
+        font-size: 2em;
+        color: #333;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .add-btn {
+        position: relative; /* 자식 요소를 상대적으로 배치하기 위해 필요 */
+        background-color: #fff;
+        border: 2px solid #000;
+        border-radius: 50%;
+        width: 40px; /* 크기를 약간 키움 */
+        height: 40px; /* 크기를 약간 키움 */
+        font-size: 1.5em;
+        line-height: 1.1;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .add-btn::before {
+        content: "+";
+        position: absolute; /* 부모 요소를 기준으로 위치를 조정 */
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 1em; /* + 기호의 크기를 조정 */
+    }
+
+    .add-btn:hover {
+        background-color: #f0f0f0;
+    }
+    .kakao-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        background: #fee500;
+        border-radius: 5px;
+        text-decoration: none;
+        width: 170px;
+        color: #3d1e1e;
+        font-weight: bold;
+        transition: background 0.3s;
+    }
+
+    .kakao-btn:hover {
+        background: #e0c200;
+    }
+
+    .kakao-btn img {
+        width: 20px;
+        margin-right: 10px;
+    }
+
+    /* 모달 스타일 */
+    .modal {
+        display: none;
+        /* 초기에는 모달을 숨김 */
+        position: fixed;
+        /* 모달을 화면에 고정 */
+        z-index: 9999;
+        /* 다른 요소보다 위에 표시 */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        /* 배경을 어둡게 함 */
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 10% auto 10px auto;
+        /* 모달을 화면 중앙에 표시 */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 65%;
+        max-height: 400px;
+        overflow: auto;
+    }
+
+    .item {
+        background: #fafafa;
+        padding: 15px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .item p {
+        margin: 0;
+        font-size: 1em;
+    }
+
+    .item input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+    }
+
+    .item img {
+        width: 20px;
+        cursor: pointer;
+    }
+    /* 왼쪽 중간에 배치되는 버튼 스타일 */
+    .left-btn {
+        position: fixed;
+        top: 50%;
+        left: 10px;
+        transform: translateY(-50%);
+        background-color: #000;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        font-size: 1.5em;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s;
+        animation: bounce 1s infinite; /* 애니메이션 적용 */
+    }
+
+    .left-btn:hover {
+        background-color: #333;
+    }
+
+    /* 오른쪽 중간에 배치되는 버튼 스타일 */
+    .right-btn {
+        position: fixed;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        background-color: #000;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        font-size: 1.5em;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s;
+        animation: bounce 1s infinite; /* 애니메이션 적용 */
+    }
+
+    .right-btn:hover {
+        background-color: #333;
+    }
+
+    @keyframes bounce {
+        0%, 100% {
+            transform: translateY(-50%);
+        }
+        50% {
+            transform: translateY(-60%);
+        }
+    }
+    @keyframes slideIn {
+        from {
+            transform: translateX(-10%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    .slide-in {
+        opacity: 0; /* 초기 상태에서 안 보이게 설정 */
+        animation: slideIn 0.3s ease-out forwards;
+    }
+</style>
+<body>
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
+<div class="container">
+    <h2>AI가 추천하는 오늘의 스케줄</h2>
+    <div style="display: flex; justify-content: space-between; margin-bottom: 40px">
+        <button class="add-btn" onclick="openModal('scheduleModal', '/schedule/add')"></button>
+        <div>
+            <a href="https://kauth.kakao.com/oauth/authorize?client_id=48a5417b39fe6369d6f6ee6a3e1c733c&redirect_uri=http://localhost:8080&response_type=code&scope=talk_message" class="kakao-btn">
+                <img src="/images/kakaotalk.png" alt="카톡 보내기">
+                나에게 보내기
+            </a>
+        </div>
+    </div>
+
+    <div th:each="schedule, iterStat : ${scheduleList}">
+        <div class="item slide-in" th:style="|animation-delay: ${iterStat.index * 0.05}s|">
+            <div style="display: flex; align-items: center; width: calc(100% - 42px)">
+                <input type="checkbox" onchange="checkboxSchedule(this)" th:attr="data-id=${schedule.getId()}" th:checked="${schedule.isCompleted()} ? 'checked' : null">
+                <p th:text="'[' + ${schedule.getTime()} + '] ' + ${schedule.getName()}"></p>
+            </div>
+            <img src="/images/trash.png" th:onclick="'deleteSchedule(' + ${schedule.getId()} + ')'" />
+        </div>
+    </div>
+
+
+
+
+    <div id="scheduleModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('scheduleModal')">&times;</span>
+        </div>
+    </div>
+</div>
+
+<a href="/subject/today" class="left-btn" style="text-decoration: none"><</a>
+<a href="/remain" class="right-btn" style="text-decoration: none">></a>
+
+</body>
+<script>
+    // 모달 열기 - AJAX를 이용하여 페이지 내용을 로드
+    function openModal(modalId, url) {
+        var modal = document.getElementById(modalId);
+        var contentDiv = modal.querySelector('.modal-content'); // iframe 대신 modal-content를 사용
+
+        fetch("http://localhost:8080" + url) // 서버에 요청
+            .then(response => response.text()) // 응답을 텍스트로 변환
+            .then(html => {
+                contentDiv.innerHTML = html; // 모달 내용에 HTML 삽입
+                modal.style.display = "block"; // 모달 열기
+            })
+            .catch(error => console.log('Error:', error));
+    }
+    // 모달 외부 클릭 시 닫기
+    window.onclick = function(event) {
+        var modal = document.getElementById('scheduleModal');
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    // 일정 체크박스 상태 변경
+    function checkboxSchedule(checkboxElem) {
+        var scheduleId = checkboxElem.getAttribute('data-id');
+        var targetUrl = '/schedule/' + scheduleId + '/completed';
+        window.location.href = targetUrl; // 현재 페이지를 새 URL로 리디렉션
+    }
+
+    // 일정 삭제
+    function deleteSchedule(scheduleId) {
+        const confirmation = confirm("해당 스케줄을 삭제하시겠습니까?");
+        if (confirmation) {
+            window.location.href = `/schedule/${scheduleId}/delete`;
+        }
+    }
+</script>
+</html>

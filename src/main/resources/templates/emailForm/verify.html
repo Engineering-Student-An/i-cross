@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<div style="margin:100px;">
+    <div style="text-align: center">
+        <h1>I-Cross</h1>
+    </div>
+    <br>
+    <h1>이메일 인증을 위해 아래 코드를 입력해 주세요.</h1>
+    <br>
+
+    <div align="center" style="border:1px solid black;">
+        <h3>이메일 인증 코드</h3>
+        <div style="font-size: 200%" th:text="${verifyCode}"></div>
+        &nbsp;
+    </div>
+    <br/>
+</div>
+
+</body>
+</html>

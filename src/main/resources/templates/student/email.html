@@ -1,0 +1,169 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+<style>
+    body {
+        background: #f4f7f6;
+        font-family: 'Noto Sans KR', Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .c-fluid {
+        text-align: center;
+        color: #343a40;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        border-radius: 20px;
+        padding: 40px;
+        background: #ffffff;
+        width: 600px;
+        min-height: 300px;
+        transition: all 0.3s ease;
+        overflow: hidden;
+        margin: auto; /* 가로 중앙 정렬 */
+        opacity: 0.95;
+    }
+
+    .c-fluid:hover {
+        box-shadow: 0 15px 35px rgba(100, 131, 234, 0.62);
+    }
+
+    h3, p {
+        margin: 20px auto;
+        color: #343a40;
+        font-weight: 700;
+    }
+
+    .form-control, .btn {
+        border-radius: 30px;
+        padding: 15px;
+        margin-top: 15px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-control {
+        border: 1px solid #ced4da;
+        background-color: #e9ecef;
+        color: #495057;
+        width: 70%;
+        /*animation: fade-in-scale-up 0.5s forwards;*/
+    }
+
+    .btn {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        width: 15%;
+        display: inline-block;
+        text-align: center;
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 300%;
+        height: 300%;
+        background: rgba(255, 255, 255, 0.15);
+        transform: translate(-50%, -50%) scale(0);
+        border-radius: 50%;
+        transition: all 0.75s;
+    }
+
+    .btn:hover::before {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    .btn:hover {
+        background-color: #218838;
+    }
+
+    .error-class {
+        color: #dc3545;
+        margin-top: 10px;
+    }
+
+    .error-input {
+        border-color: #dc3545 !important;
+    }
+
+    label {
+        color: #6c757d;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .inline-elements > * {
+        margin: 0 10px;
+    }
+
+    @keyframes fade-in-scale-up {
+        from {
+            transform: scale(0.9);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .visible {
+        display: block;
+        animation: fade-in-scale-up 0.7s forwards;
+    }
+</style>
+<body>
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br><br><br><br><br>
+<div class="c-fluid">
+    <h3>이메일 등록</h3>
+    <p>알림 전송을 위해서 이메일을 등록해야 합니다.</p>
+    <br><br><br>
+
+    <div class="form-container" id="email-form">
+        <form th:method="post" th:action="|/email|" th:object="${emailForm}">
+            <label th:for="email" style="text-align: left; margin-left: 45px">이메일 주소 (예시 : test@gmail.com)</label>
+            <div class="inline-elements" style="display: flex; align-items: center; justify-content: center;">
+                <input type="text" th:field="*{email}" th:errorclass="error-input" class="form-control"
+                       placeholder="이메일 주소를 입력하세요.">
+                &nbsp;<button type="submit" class="btn">인증</button>
+            </div>
+            <div class="error-class" style="text-align: left; margin-left: 45px" th:errors="*{email}"></div>
+        </form>
+    </div>
+    <br>
+    <div class="form-container hidden" id="verification-form">
+        <form th:if="${isSent}" th:method="post" th:action="|/email/verify?email=${emailForm.getEmail()}|" th:object="${verifyCodeForm}">
+            <label th:for="code" style="text-align: left; margin-left: 45px">인증 문자</label>
+            <div class="inline-elements" style="display: flex; align-items: center; justify-content: center;">
+                <input type="text" th:field="*{code}" th:errorclass="error-input" class="form-control"
+                       th:placeholder="|(${emailForm.email}) 로 전송된 인증 문자를 입력하세요.|">
+                &nbsp;
+                <button type="submit" class="btn">확인</button>
+            </div>
+        </form>
+    </div>
+    <br>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const isSent = [[${isSent}]]; // 서버에서 값을 받아와야 함
+        if (isSent) {
+            document.getElementById('verification-form').classList.remove('hidden');
+            document.getElementById('verification-form').classList.add('visible');
+        }
+    });
+</script>
+</body>
+</html>
+

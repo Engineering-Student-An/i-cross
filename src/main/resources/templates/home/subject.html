@@ -1,0 +1,173 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+<style>
+    body {
+        background: #f4f7f6;
+        font-family: 'Noto Sans KR', Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        width: 80%;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        position: relative; /* 추가 */
+        opacity: 0.95;
+    }
+
+    h2 {
+        font-size: 2em;
+        color: #333;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .item {
+        background: #fafafa;
+        padding: 15px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .item p {
+        margin: 0;
+        font-size: 1em;
+    }
+
+    .item input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+    }
+
+    .item img {
+        width: 20px;
+        cursor: pointer;
+    }
+    /* 왼쪽 중간에 배치되는 버튼 스타일 */
+    .left-btn {
+        position: fixed;
+        top: 50%;
+        left: 10px;
+        transform: translateY(-50%);
+        background-color: #000;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        font-size: 1.5em;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s;
+        animation: bounce 1s infinite; /* 애니메이션 적용 */
+    }
+
+    .left-btn:hover {
+        background-color: #333;
+    }
+
+    /* 오른쪽 중간에 배치되는 버튼 스타일 */
+    .right-btn {
+        position: fixed;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        background-color: #000;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        font-size: 1.5em;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s;
+        animation: bounce 1s infinite; /* 애니메이션 적용 */
+    }
+    .right-btn:hover {
+        background-color: #333;
+    }
+    @keyframes bounce {
+        0%, 100% {
+            transform: translateY(-50%);
+        }
+        50% {
+            transform: translateY(-60%);
+        }
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(-20%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    .slide-in {
+        opacity: 0; /* 초기 상태에서 안 보이게 설정 */
+        animation: slideIn 0.3s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    .fade-in {
+        opacity: 0; /* Set the initial state to be invisible */
+        animation: fadeIn 0.5s ease-out forwards;
+    }
+
+</style>
+<body>
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
+<div class="container">
+    <h2>오늘의 강의</h2>
+    <div th:if="${todaySubject.size() == 0}">
+        <h4>오늘은 공강입니다! 🎉🎉🎉</h4>
+    </div>
+    <div th:each="subject, iterStat : ${todaySubject}" class="item slide-in" th:style="|animation-delay: ${iterStat.index * 0.1}s|" style="margin-bottom: 4px">        <p th:text="${subject.getTime()}"></p>
+        <p th:text="${subject.getName()}"></p>
+    </div>
+</div>
+<br>
+<div class="container">
+    <h2>전체 강의</h2>
+    <div th:if="${allSubject.size() == 0}">
+        <h4>수강중인 강의가 없습니다!</h4>
+    </div>
+    <div th:if="${allSubject.size() != 0}">
+        <div th:each="subject, iterStat : ${allSubject}" class="item fade-in" th:style="|animation-delay: ${iterStat.index * 0.1}s|" style="margin-bottom: 40px"
+             th:text="'(' + ${subject.getCode()} + ') ' + ${subject.getName()} + '&nbsp;' + ${subject.getTime()}"></div>
+    </div>
+</div>
+
+<!-- 오른쪽 중간에 위치하는 버튼 추가 -->
+<a href="/remain" class="left-btn" style="text-decoration: none"><</a>
+<a href="/" class="right-btn" style="text-decoration: none">></a>
+
+</body>

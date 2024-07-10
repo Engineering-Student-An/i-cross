@@ -1,0 +1,167 @@
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+<style>
+    .containers {
+        display: flex;
+        justify-content: space-between; /* 필요 없을 수도 있지만, 컨테이너들이 양쪽 끝으로 정렬되도록 하는 설정입니다. */
+        align-items: stretch; /* 컨테이너의 높이를 동일하게 맞춥니다. */
+        opacity: 0.95;
+    }
+
+    .container {
+        width: 80%;
+        max-width: 1000px;
+        margin: 50px auto; /* 컨테이너 개별적 마진 설정, 이 부분은 조정이 필요할 수 있습니다. */
+        padding: 20px;
+        background: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        position: relative;
+        flex-grow: 1; /* 브라우저 크기에 따라 유연하게 크기 조정 */
+        opacity: 0.95;
+    }
+
+    .spacer {
+        width: 100px; /* 컨테이너 사이의 간격을 고정값으로 설정 */
+    }
+
+    .container.left-container {
+        margin-left: 50px;
+    }
+    .container.right-container {
+        margin-right: 50px;
+    }
+    .logout-button {
+        position: absolute;
+        right: 10px; /* 우측 여백 */
+        top: 10px; /* 상단 여백 */
+    }
+
+    .button-special {
+        background-color: white;
+        color: black;
+        border: 2px solid #555555; /* 호버 시 어두운 회색 테두리 */
+        padding: 7px 24px; /* 버튼 내부 여백 조정 */
+        font-size: 14px; /* 글꼴 크기 */
+        font-weight: 600; /* 글꼴 두께 */
+        letter-spacing: 1px; /* 글자 간격 */
+        transition: all 0.3s ease; /* 부드러운 색상 전환 */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+        border-radius: 8px; /* 모서리 둥글게 */
+    }
+
+    .button-special:hover {
+        background-color: #555555; /* 어두운 회색 배경 */
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* 호버 시 더 큰 그림자 효과 */
+        cursor: pointer;
+    }
+
+    .iclass-btn {
+        display: inline-block;
+        background-color: #ffffff; /* 파란색 배경 */
+        color: #007BFF; /* 흰색 글자 */
+        padding: 10px 20px;
+        border-radius: 20px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+
+    }
+
+    .iclass-btn:hover {
+        background-color: #50a6ec; /* 마우스를 올렸을 때 조금 더 어두운 파란색으로 변경 */
+        color: white;
+        cursor: pointer;
+    }
+
+    .iclass-btn img {
+        width: 100px;
+        height: auto;
+        vertical-align: middle;
+        margin-right: 8px;
+    }
+</style>
+<body>
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
+
+    <!-- 로딩 창 -->
+    <div id="loading" style="display:none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.66) url('/images/loading.gif') no-repeat center center; z-index: 9999;">
+        <p style="position: absolute; top: 50%; left: 50%; font-family: 'Roboto', sans-serif; transform: translate(-50%, -50%); font-size: 30px; color: black; animation: fadeIn 1s ease-in-out infinite alternate;">I-Class 정보를 가져오고 있습니다...</p>
+    </div>
+    <div class="containers">
+        <div class="container left-container">
+            <h2 style="margin-top: -5px; margin-bottom: -10px;">마이 페이지</h2><br>
+            <h3 style="margin-bottom: 30px;" th:text="${loginStudent.name} + '님 환영합니다!'"></h3>
+            <button style="margin-bottom: 20px" type="submit" onclick="reloadIclassInfo();" class="iclass-btn">
+                <img src="/images/logo.png">I-Class 정보 가져오기
+            </button>
+            <div class="logout-button">
+                <button class="button-special" th:onclick="|location.href='@{/logout}'|">로그아웃</button>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <h3 style="margin-bottom: 10px">I-Class 계정 정보</h3>
+                <button class="button-special" style="align-self: center;" th:onclick="|location.href='@{/iclassInfo}'|">계정 정보 변경</button>
+            </div>
+            <ul>
+                <li style="margin-bottom: 10px" th:text="'ID (학번) : ' + ${loginStudent.getStuId()}"></li>
+                <li style="margin-bottom: 30px;" th:text="'비밀번호 : ' + ${maskPassword}"></li>
+            </ul>
+            <div style="display: flex; justify-content: space-between;">
+                <h3 style="margin-bottom: 10px">이메일</h3>
+                <button class="button-special" style="align-self: center;" th:onclick="|location.href='@{/email/edit}'|">이메일 변경</button>
+            </div>
+            <ul>
+                <li style="margin-bottom: 30px" th:text="${loginStudent.getEmail()}"></li>
+            </ul>
+        </div>
+        <div class="spacer"></div>
+        <div class="container right-container">
+            <div>
+                <h3>공지사항 스타일</h3>
+                <ul>
+                    <li style="margin-bottom: 30px;" th:text="${loginStudent.getAnnouncementStyle()}"></li>
+                </ul>
+            </div>
+            <div>
+                <h3>공지사항 주기</h3>
+                <ul>
+                    <li th:each="period : ${loginStudent.getAnnouncementPeriod()}" th:text="'D-' + ${period}"></li>
+                </ul>
+            </div>
+            <div>
+                <h3>수강 과목 리스트</h3>
+                <ul>
+                    <li style="margin-bottom: 10px" th:each="subject : ${mySubjectList}" th:text="'(' + ${subject.getCode()} + ') ' + ${subject.getName()} + '&nbsp;' + ${subject.getTime()}"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    function reloadIclassInfo() {
+        // 로딩 창 표시
+        document.getElementById('loading').style.display = 'block';
+
+        $.ajax({
+            url: '/reload', // 컨트롤러의 엔드포인트
+            type: 'GET',
+            success: function(response) {
+                // 성공적으로 데이터를 받아왔을 때의 처리
+                console.log(response);
+                // 수동으로 리디렉션 수행
+                window.location.href = "/";
+            },
+            error: function(error) {
+                // 에러 처리
+                console.error("Error: ", error);
+                document.getElementById('loading').style.display = 'none';
+            }
+
+        });
+    }
+</script>
+</html>

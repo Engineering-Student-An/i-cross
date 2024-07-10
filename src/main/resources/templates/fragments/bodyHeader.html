@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<body>
+
+<div th:fragment="bodyHeader">
+    <style>
+        body {
+            background-image: url('/images/id.png');
+            background-repeat: no-repeat; /* 이미지가 반복되지 않도록 설정 */
+            background-position: center center; /* 이미지가 중앙에 위치하도록 설정 */
+            background-attachment: fixed; /* 배경 이미지가 고정되도록 설정 */
+
+            font-family: 'Noto Sans KR', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-y: auto;
+            min-height: 100vh;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            position: relative;
+            z-index: 1000;
+            margin-bottom: 0;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+        }
+
+        .logo-text {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-left: 10px;
+            color: #333333;
+            text-decoration: none;
+        }
+
+        .toggle-button {
+            width: 30px;
+            height: 30px;
+            background-color: transparent;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: space-around;
+            margin-right: 20px;
+        }
+
+        .toggle-button div {
+            width: 100%;
+            height: 4px;
+            background-color: #333;
+        }
+
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 300px;
+            height: 100vh;
+            background-color: #444;
+            padding-top: 60px;
+            transition: left 0.3s ease;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 10px; /* 마지막 링크 공간 확보 */
+        }
+
+        .side-menu a {
+            padding: 30px 15px;
+            font-size: 25px;
+            display: flex;
+            transition: 0.3s;
+            align-items: center;
+            text-decoration: none;
+            color: #b2b2b2;
+        }
+
+        .side-menu a:first-child {
+            margin-top: 20px; /* 첫 번째 <a> 태그에만 상단 마진을 추가 */
+        }
+
+        /* 모든 <a> 태그에 동일한 스타일 적용을 유지하면서, 마지막 <a> 태그만 하단에 위치시킵니다 */
+        .side-menu a:last-child {
+            margin-top: auto; /* 나머지 요소와 분리하여 하단에 위치시킴 */
+            margin-bottom: 60px; /* 추가 패딩을 주어 잘리지 않도록 설정 */
+
+        }
+
+        .side-menu a:hover {
+            background-color: #575757;
+        }
+
+
+    </style>
+
+    <div class="header-container">
+        <!-- 토글 버튼 -->
+        <div id="toggle-button" class="toggle-button">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <!-- 로고와 텍스트 -->
+        <a href="/"><img src="/images/img.png" alt="Logo" class="logo"></a>&nbsp;
+        <a href="/" class="logo-text">I-CROSS</a>
+    </div>
+    <!-- 사이드 메뉴 -->
+    <div id="side-menu" class="side-menu">
+        <a href="/info">
+            <img src="/images/person.png" style="width: 50px; height: 50px;" alt="person">
+            &nbsp;&nbsp;마이페이지
+        </a>
+
+        <a href="/style/edit">
+            <img src="/images/bell.png" style="width: 50px; height: 50px;" alt="bell">
+            &nbsp;&nbsp;알림 스타일 설정
+        </a>
+        <a href="/period/edit">
+            <img src="/images/calendar.png" style="width: 50px; height: 50px;" alt="calendar">
+            &nbsp;&nbsp;알림 주기 설정
+        </a>
+        <a href="/logout">
+            <img src="/images/logout.png" style="width: 50px; height: 50px;" alt="logout">
+            &nbsp;&nbsp;로그아웃
+        </a>
+    </div>
+
+    <script>
+        document.getElementById('toggle-button').addEventListener('click', function() {
+            var sideMenu = document.getElementById('side-menu');
+            var toggleButtonDivs = document.querySelectorAll('#toggle-button div');
+            var logoTextElements = document.querySelectorAll('.logo-text'); // logo-text 클래스의 요소를 선택
+
+            if (sideMenu.style.left === '0px') {
+                sideMenu.style.left = '-300px';
+                toggleButtonDivs.forEach(function(div) {
+                    div.style.backgroundColor = '#333'; // 메뉴가 닫힐 때 각 div 요소의 배경색을 검정색으로 변경
+                });
+                logoTextElements.forEach(function(element) {
+                    element.style.color = '#333'; // 메뉴가 닫힐 때 logo-text 요소의 색깔을 검정색으로 변경
+                });
+            } else {
+                sideMenu.style.left = '0';
+                toggleButtonDivs.forEach(function(div) {
+                    div.style.backgroundColor = '#b2b2b2'; // 메뉴가 열릴 때 각 div 요소의 배경색을 회색으로 변경
+                });
+                logoTextElements.forEach(function(element) {
+                    element.style.color = '#b2b2b2'; // 메뉴가 열릴 때 logo-text 요소의 색깔을 회색으로 변경
+                });
+            }
+        });
+    </script>
+
+</div>
+
+</body>
+</html>

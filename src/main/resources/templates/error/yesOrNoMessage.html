@@ -1,0 +1,25 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+<body>
+
+<div>
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+    <script th:inline="javascript">
+        window.onload = function (){
+            // 사용자에게 예/아니오를 묻는 대화상자를 표시
+            var userChoice = confirm([[${errorMessage}]]);
+            if (userChoice) {
+                // 사용자가 '예'를 선택한 경우
+                window.location.href = [[${yesUrl}]];
+            } else {
+                // 사용자가 '아니오'를 선택한 경우, 현재 페이지에 머무른다.
+                window.location.href = [[${noUrl}]];
+            }
+        }
+    </script>
+    <br>
+
+</div>
+
+</body>
+</html>

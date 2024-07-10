@@ -1,0 +1,364 @@
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head th:replace="~{fragments/header :: header}"></head>-->
+<!--<style>-->
+<!--    .item {-->
+<!--        display: flex; /* Flexbox를 사용하여 가로 정렬 */-->
+<!--        align-items: center; /* 수직 중앙 정렬 */-->
+<!--    }-->
+<!--    .item input[type="checkbox"] {-->
+<!--        margin-right: 10px; /* 체크박스 우측 여백 */-->
+<!--    }-->
+<!--    .item p {-->
+<!--        margin: 0 2px; /* 텍스트 요소의 좌우 여백 */-->
+<!--    }-->
+
+<!--    input[type="checkbox"] {-->
+<!--        -webkit-appearance: none;-->
+<!--        appearance: none;-->
+<!--        width: 10px;-->
+<!--        height: 10px;-->
+<!--        border: 1px solid #386dff;-->
+<!--        border-radius: 3px;-->
+<!--        cursor: pointer;-->
+<!--        outline: none;-->
+<!--    }-->
+
+<!--    input[type="checkbox"]:checked {-->
+<!--        background-color: #386dff;-->
+<!--    }-->
+
+<!--    input[type="checkbox"]::before {-->
+<!--        content: "\2713";-->
+<!--        font-size: 18px;-->
+<!--        color: #fff;-->
+<!--        position: absolute;-->
+<!--        top: 50%;-->
+<!--        left: 50%;-->
+<!--        transform: translate(-50%, -50%);-->
+<!--        display: none;-->
+<!--    }-->
+
+<!--    input[type="checkbox"]:checked::before {-->
+<!--        opacity: 1;-->
+<!--    }-->
+
+<!--    .con {-->
+<!--        width: 100%;-->
+<!--        height: 100%;-->
+<!--        max-width: none;-->
+<!--        max-height: none;-->
+<!--        display: flex;-->
+<!--        flex-direction: column;-->
+<!--        align-items: center;-->
+<!--        padding: 0;-->
+<!--        box-sizing: border-box;-->
+<!--        margin-top: 30px;-->
+<!--    }-->
+
+<!--    h1 {-->
+<!--        font-size: 2em;-->
+<!--        margin: 0;-->
+<!--    }-->
+
+<!--    .main-content {-->
+<!--        display: grid;-->
+<!--        grid-template-columns: auto 1fr 1fr 1fr;-->
+<!--        grid-template-rows: auto 1fr 1fr;-->
+<!--        width: 100%;-->
+<!--        height: 100%;-->
+<!--        box-sizing: border-box;-->
+<!--    }-->
+
+<!--    .section {-->
+<!--        border: 1px solid #000;-->
+<!--        padding: 10px;-->
+<!--        box-sizing: border-box;-->
+<!--        position: relative;-->
+<!--        background-color: #fff;-->
+<!--        /* 섹션 배경색 설정, 필요시 변경 */-->
+
+<!--    }-->
+
+<!--    h2 {-->
+<!--        font-size: 1.5em;-->
+<!--        margin-bottom: 10px;-->
+<!--        margin-top: -5px;-->
+<!--    }-->
+
+<!--    .add-btn {-->
+<!--        position: absolute;-->
+<!--        top: 5px;-->
+<!--        right: 5px;-->
+<!--        background-color: #fff;-->
+<!--        border: 2px solid #000;-->
+<!--        border-radius: 50%;-->
+<!--        width: 25px;-->
+<!--        height: 25px;-->
+<!--        font-size: 1.5em;-->
+<!--        line-height: 1.1;-->
+<!--        text-align: center;-->
+<!--        cursor: pointer;-->
+<!--    }-->
+
+<!--    .add-btn::before {-->
+<!--        content: "+";-->
+<!--        position: absolute;-->
+<!--        top: 50%;-->
+<!--        left: 50%;-->
+<!--        transform: translate(-50%, -50%);-->
+<!--    }-->
+
+<!--    .add-btn:hover {-->
+<!--        background-color: #f0f0f0;-->
+<!--    }-->
+
+<!--    /* 모달 스타일 */-->
+<!--    .modal {-->
+<!--        display: none;-->
+<!--        /* 초기에는 모달을 숨김 */-->
+<!--        position: fixed;-->
+<!--        /* 모달을 화면에 고정 */-->
+<!--        z-index: 9999;-->
+<!--        /* 다른 요소보다 위에 표시 */-->
+<!--        left: 0;-->
+<!--        top: 0;-->
+<!--        width: 100%;-->
+<!--        height: 100%;-->
+<!--        overflow: auto;-->
+<!--        background-color: rgba(0, 0, 0, 0.4);-->
+<!--        /* 배경을 어둡게 함 */-->
+<!--    }-->
+
+<!--    .modal-content {-->
+<!--        background-color: #fefefe;-->
+<!--        margin: 10% auto 10px auto;-->
+<!--        /* 모달을 화면 중앙에 표시 */-->
+<!--        padding: 20px;-->
+<!--        border: 1px solid #888;-->
+<!--        width: 65%;-->
+<!--        max-height: 400px;-->
+<!--        overflow: auto;-->
+<!--    }-->
+
+<!--    /* 닫기 버튼 스타일 */-->
+<!--    .close {-->
+<!--        color: #aaa;-->
+<!--        float: right;-->
+<!--        font-size: 28px;-->
+<!--        font-weight: bold;-->
+<!--    }-->
+
+<!--    .close:hover,-->
+<!--    .close:focus {-->
+<!--        color: black;-->
+<!--        text-decoration: none;-->
+<!--        cursor: pointer;-->
+<!--    }-->
+
+<!--    .kakao-btn {-->
+<!--        display: inline-block;-->
+<!--        background-color: #FEE500;-->
+<!--        color: #3C1E1E;-->
+<!--        padding: 10px 20px;-->
+<!--        border-radius: 20px;-->
+<!--        text-decoration: none;-->
+<!--        font-weight: bold;-->
+<!--        transition: background-color 0.3s ease;-->
+<!--    }-->
+
+<!--    .kakao-btn:hover {-->
+<!--        background-color: #ECD400;-->
+<!--    }-->
+
+<!--    .kakao-btn img {-->
+<!--        width: 20px;-->
+<!--        height: 20px;-->
+<!--        vertical-align: middle;-->
+<!--        margin-right: 8px;-->
+<!--    }-->
+
+<!--</style>-->
+<!--<body>-->
+<!--<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>-->
+<!--<div style="height: 100vh">-->
+<!--    <div class="con">-->
+<!--        <div class="main-content">-->
+
+<!--            <div class="section schedule" style="grid-column: 2 / span 1; grid-row: 2 / span 2;">-->
+<!--                <h2>schedule</h2>-->
+<!--                <button class="add-btn" onclick="openModal('scheduleModal', '/schedule/add')"></button>-->
+<!--                <div style="margin-bottom: 20px">-->
+<!--                    <a href="https://kauth.kakao.com/oauth/authorize?client_id=48a5417b39fe6369d6f6ee6a3e1c733c&redirect_uri=http://localhost:8080&response_type=code&scope=talk_message" class="kakao-btn">-->
+<!--                        <img src="/images/kakaotalk.png" alt="카톡 보내기">-->
+<!--                        나에게 보내기-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--                <div th:each="schedule : ${scheduleList}">-->
+<!--                    <div class="item" style="margin-bottom: 20px">-->
+<!--                        <div style="width: 100%; display: flex; justify-content: space-between; align-items: center">-->
+<!--                            <input type="checkbox" style="width: 10px; height: 10px; align-self: center;"-->
+<!--                                   onchange="checkboxSchedule(this)" th:attr="data-id=${schedule.getId()}" th:checked="${schedule.isCompleted()} ? 'checked' : null">-->
+<!--                            <div style="display: flex; align-items: center; width: calc(100% - 42px)">-->
+<!--                                <p th:text="'[' + ${schedule.getTime()} + '] ' + ${schedule.getName()}" style="margin: 0;"></p>-->
+<!--                            </div>-->
+<!--                            <img src="/images/trash.png" style="width: 18px; align-self: flex-start; cursor: pointer;" th:onclick="'deleteSchedule(' + ${schedule.getId()} + ')'" />-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div id="scheduleModal" class="modal">-->
+<!--                <div class="modal-content">-->
+<!--                    <span class="close" onclick="closeModal('scheduleModal')">&times;</span>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="section class" style="grid-column: 3 / span 1; grid-row: 2 / span 1;">-->
+<!--                <h2>class</h2>-->
+<!--                <div th:if="${todaySubject.size() == 0}">-->
+<!--                    <h4>오늘은 공강입니다! 🎉🎉🎉</h4>-->
+<!--                </div>-->
+<!--                <div th:each="subject : ${todaySubject}" class="item" style="margin-bottom: 4px">-->
+<!--                    <p th:text="${subject.getTime()}"></p>-->
+<!--                    <p th:text="${subject.getName()}"></p>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="section web-class" style="grid-column: 4 / span 1; grid-row: 2 / span 1;">-->
+<!--                <h2>web-class</h2>-->
+<!--                <div th:if="${remainVideoLectures.size() == 0}">-->
+<!--                    <h4>남아있는 웹강이 없습니다! 🎉🎉🎉</h4>-->
+<!--                </div>-->
+<!--                <div th:each="allVideoLecture : ${remainVideoLectures}">-->
+<!--                    <div class="item" style="margin-bottom: 2px">-->
+<!--                        <input type="checkbox" onchange="checkboxVideo(this)" th:attr="data-id=${allVideoLecture.getWebId()}">-->
+<!--                        <p th:text="'[' + ${allVideoLecture.getSubjectName()} + '] '"></p>-->
+
+<!--                    </div>-->
+<!--                    <div class="item" style="margin-bottom: 2px">-->
+<!--                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<p th:text="${allVideoLecture.getName()}"></p>-->
+<!--                    </div>-->
+
+<!--                    <div class="item" style="margin-bottom: 10px">-->
+<!--                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+<!--                        <p th:text="'~ ' + ${#temporals.format(allVideoLecture.getDeadline(), 'MM/dd HH:mm')}"></p>-->
+<!--                        <div th:if="${T(java.time.temporal.ChronoUnit).DAYS.between(T(java.time.LocalDate).now(), allVideoLecture.getDeadline()) == 0}">-->
+<!--                            <p th:text="' (D-' + ${T(java.time.temporal.ChronoUnit).DAYS.between(T(java.time.LocalDate).now(), allVideoLecture.getDeadline())} + ')'" style="color: red; font-weight: bold"></p>-->
+<!--                        </div>-->
+<!--                        <div th:if="${T(java.time.temporal.ChronoUnit).DAYS.between(T(java.time.LocalDate).now(), allVideoLecture.getDeadline()) == 1}">-->
+<!--                            <p th:text="' (D-' + ${T(java.time.temporal.ChronoUnit).DAYS.between(T(java.time.LocalDate).now(), allVideoLecture.getDeadline())} + ')'" style="color: #ff5f27; font-weight: bold"></p>-->
+<!--                        </div>-->
+<!--                        <div th:if="${T(java.time.temporal.ChronoUnit).DAYS.between(T(java.time.LocalDate).now(), allVideoLecture.getDeadline()) == 2}">-->
+<!--                            <p th:text="' (D-' + ${T(java.time.temporal.ChronoUnit).DAYS.between(T(java.time.LocalDate).now(), allVideoLecture.getDeadline())} + ')'" style="color: #ff9356; font-weight: bold"></p>-->
+<!--                        </div>-->
+<!--                        <div th:if="${T(java.time.temporal.ChronoUnit).DAYS.between(T(java.time.LocalDate).now(), allVideoLecture.getDeadline()) > 2}">-->
+<!--                            <p th:text="' (D-' + ${T(java.time.temporal.ChronoUnit).DAYS.between(T(java.time.LocalDate).now(), allVideoLecture.getDeadline())} + ')'" style="color: black"></p>-->
+<!--                        </div>-->
+
+<!--                        </p>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="section assignment" style="grid-column: 3 / span 2; grid-row: 3 / span 1;">-->
+<!--                <h2>assignment</h2>-->
+<!--                <div th:if="${remainAssignments.size() == 0}">-->
+<!--                    <h4>남아있는 과제가 없습니다! 🎉🎉🎉</h4>-->
+<!--                </div>-->
+<!--                <div th:each="allAssignment : ${remainAssignments}">-->
+<!--                    <div class="item">-->
+<!--                        <input type="checkbox" onchange="checkboxAssign(this)" th:attr="data-id=${allAssignment.getWebId()}">-->
+<!--                        <p th:text="'[' + ${allAssignment.getSubjectName()} + '] '"></p>-->
+<!--                        <p th:text="${allAssignment.getName()}"></p>-->
+<!--                    </div>-->
+<!--                    <div class="item" style="margin-bottom: 10px">-->
+<!--                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<p th:text="'~ ' + ${#temporals.format(allAssignment.getDeadline(), 'MM/dd HH:mm')}"></p>-->
+<!--                        <div th:if="${T(java.time.temporal.ChronoUnit).DAYS.between(T(java.time.LocalDate).now(), allAssignment.getDeadline()) == 0}">-->
+<!--                            <p th:text="' (D-' + ${T(java.time.temporal.ChronoUnit).DAYS.between(T(java.time.LocalDate).now(), allAssignment.getDeadline())} + ')'" style="color: red; font-weight: bold"></p>-->
+<!--                        </div>-->
+<!--                        <div th:if="${T(java.time.temporal.ChronoUnit).DAYS.between(T(java.time.LocalDate).now(), allAssignment.getDeadline()) == 1}">-->
+<!--                            <p th:text="' (D-' + ${T(java.time.temporal.ChronoUnit).DAYS.between(T(java.time.LocalDate).now(), allAssignment.getDeadline())} + ')'" style="color: #ff5f27; font-weight: bold"></p>-->
+<!--                        </div>-->
+<!--                        <div th:if="${T(java.time.temporal.ChronoUnit).DAYS.between(T(java.time.LocalDate).now(), allAssignment.getDeadline()) == 2}">-->
+<!--                            <p th:text="' (D-' + ${T(java.time.temporal.ChronoUnit).DAYS.between(T(java.time.LocalDate).now(), allAssignment.getDeadline())} + ')'" style="color: #ff9356; font-weight: bold"></p>-->
+<!--                        </div>-->
+<!--                        <div th:if="${T(java.time.temporal.ChronoUnit).DAYS.between(T(java.time.LocalDate).now(), allAssignment.getDeadline()) > 2}">-->
+<!--                            <p th:text="' (D-' + ${T(java.time.temporal.ChronoUnit).DAYS.between(T(java.time.LocalDate).now(), allAssignment.getDeadline())} + ')'" style="color: black"></p>-->
+<!--                        </div>-->
+
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <br><br>-->
+<!--</div>-->
+<!--</body>-->
+
+
+<!--<script>-->
+<!--    // 모달 열기 - AJAX를 이용하여 페이지 내용을 로드-->
+<!--    function openModal(modalId, url) {-->
+<!--        var modal = document.getElementById(modalId);-->
+<!--        var contentDiv = modal.querySelector('.modal-content'); // iframe 대신 modal-content를 사용-->
+
+<!--        fetch("http://localhost:8080" + url) // 서버에 요청-->
+<!--            .then(response => response.text()) // 응답을 텍스트로 변환-->
+<!--            .then(html => {-->
+<!--                contentDiv.innerHTML = html; // 모달 내용으로 설정-->
+<!--                modal.style.display = "block"; // 모달을 보이게 함-->
+<!--            })-->
+<!--            .catch(error => console.error('Error loading the page: ', error));-->
+<!--    }-->
+
+<!--    // 모달 닫기-->
+<!--    function closeModal(modalId) {-->
+<!--        var modal = document.getElementById(modalId);-->
+<!--        modal.style.display = "none"; // 모달을 숨김-->
+<!--    }-->
+
+<!--    // 모달 외부를 클릭하여 닫기-->
+<!--    window.onclick = function (event) {-->
+<!--        var modals = document.getElementsByClassName("modal");-->
+<!--        for (var i = 0; i < modals.length; i++) {-->
+<!--            var modal = modals[i];-->
+<!--            if (event.target == modal) {-->
+<!--                // var iframe = modal.querySelector('iframe');-->
+<!--                // iframe.src = ""; // 모달을 닫을 때 src 제거-->
+<!--                modal.style.display = "none"; // 모달을 숨김-->
+<!--            }-->
+<!--        }-->
+<!--    }-->
+
+<!--    function checkboxVideo(checkboxElem) {-->
+<!--        if (checkboxElem.checked) {-->
+<!--            var videoId = checkboxElem.getAttribute('data-id');-->
+<!--            var targetUrl = '/videoLecture/' + videoId + '/completed';-->
+<!--            window.location.href = targetUrl; // 현재 페이지를 새 URL로 리디렉션-->
+<!--        }-->
+<!--    }-->
+
+<!--    function checkboxAssign(checkboxElem) {-->
+<!--        if (checkboxElem.checked) {-->
+<!--            var assignId = checkboxElem.getAttribute('data-id');-->
+<!--            var targetUrl = '/assignment/' + assignId + '/completed';-->
+<!--            window.location.href = targetUrl; // 현재 페이지를 새 URL로 리디렉션-->
+<!--        }-->
+<!--    }-->
+
+<!--    function checkboxSchedule(checkboxElem) {-->
+<!--        var scheduleId = checkboxElem.getAttribute('data-id');-->
+<!--        var targetUrl = '/schedule/' + scheduleId + '/completed';-->
+<!--        window.location.href = targetUrl; // 현재 페이지를 새 URL로 리디렉션-->
+<!--    }-->
+
+<!--    function deleteSchedule(scheduleId) {-->
+<!--        const confirmation = confirm("해당 스케줄을 삭제하시겠습니까?");-->
+<!--        if (confirmation) {-->
+<!--           window.location.href = `/schedule/${scheduleId}/delete`;-->
+<!--        }-->
+<!--    }-->
+
+<!--</script>-->
+
+<!--</html>-->
