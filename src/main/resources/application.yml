@@ -58,3 +58,6 @@ spring:
   devtools:
     restart:
       enabled: false
+
+secret:
+  apiKey: ${API_KEY}

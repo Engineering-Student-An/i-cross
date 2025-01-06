@@ -3,6 +3,7 @@ package cross.icross.service;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -14,13 +15,15 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class OpenAIService {
 
+    @Value("${secret.apiKey}")
+    private String apiKey;
+
     private final RestTemplate restTemplate;
 
     public String schedule(String prompt) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        String apiKey = "";
         headers.set("Authorization", "Bearer " + apiKey);
 
         JSONObject messageUser = new JSONObject();
@@ -72,7 +75,6 @@ public class OpenAIService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
-        String apiKey = "";
         headers.set("Authorization", "Bearer " + apiKey);
 
         JSONObject messageUser = new JSONObject();
