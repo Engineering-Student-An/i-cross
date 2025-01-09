@@ -9,13 +9,9 @@ import java.util.List;
 @Repository
 public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
 
-    boolean existsAssignmentByWebId(Long webId);
-
     boolean existsAssignmentByWebIdAndStudentId(Long webId, Long studentId);
 
     List<Assignment> findAssignmentsByCompletedAndStudentId(boolean completed, Long studentId);
-
-    Assignment findAssignmentByWebId(Long webId);
 
     Assignment findAssignmentByWebIdAndStudentId(Long webId, Long studentId);
 

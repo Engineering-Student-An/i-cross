@@ -39,8 +39,6 @@ public class HomeController {
     private final ScheduledTask scheduledTask;
     private final CoursemosService coursemosService;
 
-//    private final AsyncService asyncService;
-
     @GetMapping("/")
     public String home(Model model, HttpServletRequest request){
 

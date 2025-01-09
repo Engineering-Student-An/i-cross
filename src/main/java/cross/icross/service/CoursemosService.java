@@ -241,9 +241,6 @@ public class CoursemosService {
                         }
                     }
                 }
-                System.out.println("videos = " + videos);
-                System.out.println("assigns = " + assigns);
-                System.out.println("quizs = " + quizs);
                 return new HomeController.ListPair(videos, assigns, quizs);
 
             } catch (IOException e) {
@@ -257,7 +254,6 @@ public class CoursemosService {
         return null;
     }
 
-    private final VideoLectureService videoLectureService;
     public Long saveVideo(String utoken, VideoLectureDTO videoLectureDTO) {
 
         Long videoId = videoLectureDTO.getWebId();
@@ -291,8 +287,6 @@ public class CoursemosService {
         String response = restTemplate.postForObject("https://learn.inha.ac.kr/local/coursemos/webviewapi.php?lang=ko",
                 entity, // 첫 번째 요청의 HttpEntity
                 String.class);
-
-//        System.out.println(response); // 처리된 응답 출력
 
         Document doc = (Document) Jsoup.parse(response);
 
