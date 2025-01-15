@@ -39,6 +39,8 @@ public class HomeController {
     private final ScheduledTask scheduledTask;
     private final CoursemosService coursemosService;
 
+    private final WeatherService weatherService;
+
     @GetMapping("/")
     public String home(Model model, HttpServletRequest request){
 
@@ -50,16 +52,15 @@ public class HomeController {
 
             // 스케줄 -> 카톡 보내기
             String code = request.getParameter("code");
-            if(code != null) {
-                if(authService.getKakaoAuthToken(code)) {
-                    customMessageService.sendMyMessage(loginStudent.getId());
-                    System.out.println("code = " + code);
-                    return "redirect:/";
-
-                }
+            if(code != null && authService.getKakaoAuthToken(code)) {
+                customMessageService.sendMyMessage(loginStudent.getId());
+                return "redirect:/";
             }
 
         }
+
+        // 모델에 날씨 추가
+        model.addAttribute("weather", weatherService.returnWeather());
         return "home/index";
     }
 
@@ -132,18 +133,14 @@ public class HomeController {
 
         Student loginStudent = (Student) model.getAttribute("loginStudent");
 
-        System.out.println("리로드");
         // wstoken 가져오기
         String wstoken = coursemosService.getWstoken();
-        System.out.println("reloadwstoken = " + wstoken);
 
         // utoken 가져오기
         String utoken = coursemosService.login(loginStudent.getStuId(), loginStudent.getPassword(), wstoken);
-        System.out.println("utoken = " + utoken);
 
         // 수강중인 강의의 id 가져오기
         List<Long> courseIds = coursemosService.getCourseIds(utoken);
-        System.out.println("courseIds = " + courseIds);
         // 로그인 학생의 수강 목록에 추가
         for (Long courseId : courseIds) {
             if(!loginStudent.getSubjectList().contains(courseId)) {
@@ -153,9 +150,6 @@ public class HomeController {
 
 
         for (Long courseId : courseIds) {
-            System.out.println("courseId = " + courseId);
-
-
             ListPair listPair = coursemosService.getList(utoken, courseId);
 
             // 웹강 리스트
@@ -275,18 +269,12 @@ public class HomeController {
         try {
             // wstoken 가져오기
             String wstoken = coursemosService.getWstoken();
-            System.out.println("wstoken = " + wstoken);
 
             // utoken 가져오기
             String utoken = coursemosService.login(loginStudent.getStuId(), loginStudent.getPassword(), wstoken);
-            System.out.println("utoken = " + utoken);
 
             // 수강중인 강의의 id 가져오기
             List<Long> courseIds = loginStudent.getSubjectList();
-            System.out.println("courseIds = " + courseIds);
-
-            // 비동기 작업 호출
-//        asyncService.processStudentData(utoken, courseIds, loginStudent.getId());
 
             Long studentId = loginStudent.getId();
 
@@ -364,7 +352,6 @@ public class HomeController {
             Map<String, Object> response = new HashMap<>();
             response.put("status", "error");
             response.put("message", "I-Class 계정 연동 중 오류가 발생했습니다.\n입력하신 정보를 확인 해 주세요!\n\n");
-            System.out.println("오류");
             return ResponseEntity.status(500).body(response);
         }
 
