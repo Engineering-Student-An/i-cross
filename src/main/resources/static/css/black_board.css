@@ -1,0 +1,47 @@
+.container-b {
+    border: 10px solid rgb(133, 77, 60);
+    margin: 100px auto;
+    background-color: rgba(10, 49, 10, 0.93);
+    box-shadow: 5px 5px 10px 5px #ddd;
+    color: white;
+    padding: 20px 50px 50px 50px;
+    font-size: 26px;
+    font-weight: normal;
+    font-family: 'Nanum Brush Script',serif;
+    position: relative; /* 자식 요소의 절대 위치를 기준으로 하기 위해 추가 */
+}
+
+.container-b h2 {
+    font-size : 50px;
+}
+
+.pen{
+    border: 3px solid white;
+    position: absolute; /* 절대 위치로 변경 */
+    bottom: 0px; /* 컨테이너 하단에서 10px 위 */
+    left: 20px; /* 왼쪽에 위치 */
+    width: 50px;
+}
+
+.eraser {
+    background-color: navy;
+    width: 110px;
+    height: 50px;
+    position: absolute; /* 절대 위치로 변경 */
+    bottom: 5px; /* 컨테이너 하단에서 10px 위 */
+    right: 20px; /* 오른쪽에 위치 */
+    border: 3px solid #000;
+    border-radius: 10px;
+    font-size: 15px;
+    text-align: center;
+}
+.eraser-bg {
+    background-color: darkorange;
+    width: 110px;
+    height: 20px;
+    position: relative;
+    top: 12px;
+    left: -3px;
+    border: 3px solid #000;
+    border-radius: 0 0 10px 10px;
+}
