@@ -154,7 +154,6 @@
         <p th:text="${subject.getName()}"></p>
     </div>
 </div>
-<br>
 <div class="container">
     <h2>전체 강의</h2>
     <div th:if="${allSubject.size() == 0}">
@@ -168,6 +167,6 @@
 
 <!-- 오른쪽 중간에 위치하는 버튼 추가 -->
 <a href="/remain" class="left-btn" style="text-decoration: none"><</a>
-<a href="/" class="right-btn" style="text-decoration: none">></a>
+<a href="/quiz" class="right-btn" style="text-decoration: none">></a>
 
 </body>
