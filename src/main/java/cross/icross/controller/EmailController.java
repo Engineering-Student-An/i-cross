@@ -49,7 +49,6 @@ public class EmailController {
         String authCode = emailService.createVerifyCode();
         emailService.sendEmail(email, authCode, "emailForm/verify");
         session.setAttribute("verifyCode", authCode);
-        System.out.println("authCode = " + authCode);
 
         model.addAttribute("isSent", true);
 
@@ -63,7 +62,6 @@ public class EmailController {
 
         // 메일 보낸 인증 문자
         String verifyCode = (String) session.getAttribute("verifyCode");
-        System.out.println("verifyCode = " + verifyCode);
 
         // 인증 문자와 동일한지 검증
         if(!verifyCodeForm.getCode().equals(verifyCode)) {
@@ -112,7 +110,6 @@ public class EmailController {
         String authCode = emailService.createVerifyCode();
         emailService.sendEmail(email, authCode, "emailForm/verify");
         session.setAttribute("verifyCode", authCode);
-        System.out.println("authCode = " + authCode);
 
         model.addAttribute("isSent", true);
 
@@ -126,7 +123,6 @@ public class EmailController {
 
         // 메일 보낸 인증 문자
         String verifyCode = (String) session.getAttribute("verifyCode");
-        System.out.println("verifyCode = " + verifyCode);
 
         // 인증 문자와 동일한지 검증
         if(!verifyCodeForm.getCode().equals(verifyCode)) {
