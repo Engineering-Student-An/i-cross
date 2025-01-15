@@ -146,7 +146,6 @@ public class CoursemosService {
 
                     // 존재하지 않는 과목은 저장
                     if(!subjectService.existsById(course.getId())) {
-                        System.out.println("존재하지 않는 subjectId = " + course.getId());
                         subjectService.save(course.getId(), course.getIdnumber(), course.getFullname(), course.getDay_cd(), course.getHour1());
                     }
                 }
@@ -257,7 +256,6 @@ public class CoursemosService {
     public Long saveVideo(String utoken, VideoLectureDTO videoLectureDTO) {
 
         Long videoId = videoLectureDTO.getWebId();
-        System.out.println("videoId = " + videoId);
 
         // 헤더 설정
         HttpHeaders headers = new HttpHeaders();
@@ -304,7 +302,6 @@ public class CoursemosService {
                         // 문자열을 LocalDateTime 객체로 변환
                         LocalDateTime dateTime = LocalDateTime.parse(valueElement.text(), formatter);
 
-                        System.out.println("dateTime = " + dateTime);
                         // 마감기한이 오늘보다 뒤에 있거나 아직 존재하지 않을때 AllVideoLecture 저장
                         if(!allVideoLectureService.existsByWebId(videoId)) {
                             allVideoLectureService.save(videoLectureDTO, dateTime);
@@ -320,7 +317,6 @@ public class CoursemosService {
     public Long saveAssign(String utoken, VideoLectureDTO assign) {
 
         Long assignId = assign.getWebId();
-        System.out.println("assignId = " + assignId);
 
         // 헤더 설정
         HttpHeaders headers = new HttpHeaders();
@@ -379,7 +375,6 @@ public class CoursemosService {
     public Long saveQuiz(String utoken, VideoLectureDTO quiz) {
 
         Long quizId = quiz.getWebId();
-        System.out.println("quizId = " + quizId);
 
         // 헤더 설정
         HttpHeaders headers = new HttpHeaders();
