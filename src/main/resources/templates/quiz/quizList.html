@@ -1,0 +1,69 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+
+<link rel="stylesheet" href="/css/black_board.css"/>
+<link rel="stylesheet" href="/css/modal.css"/>
+
+<body style="display: flex; flex-direction: column;">
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
+<div id="wrap" style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+
+    <div class="container-b" style="width: 70%;">
+        <div class="board-tools">
+            <div class="pen"></div>
+            <div class="eraser">지우개<div class="eraser-bg"></div></div>
+        </div>
+
+        <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h2 style="color: white;">AI가 뽑아주는 예상 시험 문제</h2>
+            <a href="/quiz" style="text-decoration: none; padding: 8px 16px; margin-bottom: 8px; background-color: blue; color: white; border-radius: 8px; cursor: pointer; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='darkblue'" onmouseout="this.style.backgroundColor='blue'">다시 생성하기</a>
+        </div>
+
+        <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+            <div th:if="${quizList.oxQuestions.size()>0}" style="margin-bottom: 24px;">
+                <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <h3 style="margin-bottom: 24px;">O / X 문제</h3>
+                </div>
+
+                <div th:each="question : ${quizList.oxQuestions}" style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 24px;">
+                    <p th:utext="${question.question} + '<br>&nbsp;&nbsp;&nbsp;&nbsp;O / X'"></p>
+                </div>
+            </div>
+
+            <div th:if="${quizList.multipleChoiceQuestions.size()>0}" style="margin-bottom: 24px;">
+                <hr style="margin-bottom: 24px;"/>
+                <h3 style="margin-bottom: 24px;">객관식 문제</h3>
+                <div th:each="question : ${quizList.multipleChoiceQuestions}" style="margin-bottom: 24px;">
+                    <p th:text="${question.question}"></p>
+                    <div th:each="choice : ${question.choices}">
+                        <p th:utext="${'&nbsp;&nbsp;&nbsp;&nbsp;' + choice}"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div th:if="${quizList.shortAnswerQuestions.size()>0}" style="margin-bottom: 24px;">
+                <hr style="margin-bottom: 24px;"/>
+                <h3 style="margin-bottom: 24px;">단답식 문제</h3>
+                <div th:each="question : ${quizList.shortAnswerQuestions}" style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 24px;">
+                    <p th:text="${question.question}"></p>
+                </div>
+            </div>
+
+            <button style="margin-top: 40px; margin-bottom: 40px; padding: 8px 16px; background-color: blue; color: white; border-radius: 8px; cursor: pointer; transition: background-color 0.3s;" onclick="openModal(this)" th:data-answers="${quizList.answers}">정답 확인</button>
+        </div>
+    </div>
+
+    <!-- 모달 -->
+    <div id="myModal" class="modal">
+        <div class="modal-content" style="width: auto; height: auto;">
+            <span class="close" style="cursor: pointer;">&times;</span>
+            <p id="message">정답 확인</p>
+            <p id="answerText" style="padding: 50px 150px;"></p>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/quiz_answers.js"></script>
+</html>
