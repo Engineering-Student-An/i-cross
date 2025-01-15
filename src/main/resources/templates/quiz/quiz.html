@@ -1,0 +1,82 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+
+<link rel="stylesheet" href="/css/index.css"/>
+<link rel="stylesheet" href="/css/black_board.css"/>
+<style>
+    .hidden {
+        display: none;
+    }
+</style>
+
+<body style="display: flex; flex-direction: column;">
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
+<div id="wrap" style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+
+    <div class="container-b" style="width: 70%;">
+        <div class="board-tools">
+            <div class="pen"></div>
+            <div class="eraser">지우개<div class="eraser-bg"></div>
+            </div>
+        </div>
+
+        <h2 style="color: white">AI가 뽑아주는 예상 시험 문제</h2><br/>
+
+        <form class="mt-5 mb-5" th:action="@{/api/quiz/loading}" th:object="${quizRequestDto}" method="post" enctype="multipart/form-data">
+            <div style="display: flex; justify-content: center;">
+                <div style="width: 50%; margin-right: 10%;">
+                    <input type="file" th:field="*{lectureNote}" id="file-input" style="display: none;" onchange="checkTotal()" />
+                    <span style="font-size: 20px; color: gray; margin-bottom: 2px; display: block;">파일은 최대 10MB, pdf 확장자만 업로드 가능</span>
+
+                    <!-- 업로드 된 파일 이름 -->
+                    <div id="error-file" style="color: red; margin-top: 10px; margin-bottom: 10px;">파일이 선택되지 않았습니다.</div>
+                    <div id="file-info" style="margin-bottom: 4px; color: gray;"></div>
+
+                    <div style="margin-top: 40px;">
+                        <label for="file-input" style="padding: 12px;  margin-bottom: 8px; font-size:20px; background-color: blue; color: white; border-radius: 8px; cursor: pointer; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='darkblue'" onmouseout="this.style.backgroundColor='blue'">
+                            파일 선택하기
+                        </label>
+                    </div>
+                </div>
+
+                <div style="width: 50%;">
+                    <div style="display: flex; flex-direction: row;">
+                        <div style="display: flex; flex-direction: column; margin-bottom: 8px;">
+                            <label for="ox">O / X</label>
+                            <input type="number" id="ox" style="color: black; width: 50%; border: 1px solid; border-radius: 4px; padding: 8px;" th:field="*{ox}" th:default="${1}" min="0" onchange="checkTotal()" />
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; margin-bottom: 8px;">
+                            <label for="multipleChoice">객관식</label>
+                            <input type="number" id="multipleChoice" style="color: black; width: 50%; border: 1px solid; border-radius: 4px; padding: 8px;" th:field="*{multipleChoice}" value="1" min="0" onchange="checkTotal()" />
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; margin-bottom: 8px;">
+                            <label for="shortAnswer">주관식</label>
+                            <input type="number" id="shortAnswer" style="color: black; width: 50%; border: 1px solid; border-radius: 4px; padding: 8px;" th:field="*{shortAnswer}" value="1" min="0" onchange="checkTotal()" />
+                        </div>
+                    </div>
+
+                    <div id="error-0" style="color: red; margin-top: 8px;">문제의 총 수가 1개 이상이여야 합니다.</div>
+                    <div id="error-20" style="color: red; margin-top: 8px; display: none;">문제의 총 수가 20개 이하여야 합니다.</div>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
+                <button id="submit-button" type="submit"
+                        style="margin-top: 40px; margin-bottom: 40px; background-color: blue;
+                        color: white; border-radius: 8px; padding: 12px; transition: background-color 0.3s;" disabled>
+                    퀴즈 생성</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<a href="/subject/today" class="left-btn" style="text-decoration: none;"><</a>
+<a href="/" class="right-btn" style="text-decoration: none;">></a>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/upload_file.js"></script>
+</html>
