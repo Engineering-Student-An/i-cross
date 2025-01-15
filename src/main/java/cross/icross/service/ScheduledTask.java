@@ -72,9 +72,6 @@ public class ScheduledTask {
             Student student = studentService.findStudentById(studentId);
             String prompt = "내 이름은 " + student.getName() + "이야. 내가 남은 과제에 대한 정보들을 알려줄게.";
             int index = 1;
-            for (Long l : assignMap.keySet()) {
-                System.out.println("l = " + l);
-            }
             for (AllAssignment allAssignment : assignMap.get(studentId)) {
                 prompt += ( (index++) + "번째 남은 과제에 대한 정보는 과목명은 " + allAssignment.getSubjectName() + "이고, 과제 이름은 "
                         + allAssignment.getName() + "이고, 마감기한이 " + ChronoUnit.DAYS.between(LocalDate.now(), allAssignment.getDeadline().toLocalDate())
@@ -96,7 +93,6 @@ public class ScheduledTask {
             String content = firstChoice.getJSONObject("message").getString("content");
 
             // 메일 보내기
-            System.out.println("content = " + content);
             emailService.sendEmail(student.getEmail(), content, "emailForm/assignmentAnnouncement");
 
         }
@@ -134,9 +130,6 @@ public class ScheduledTask {
                 }
             }
         }
-        for (Long l : videoMap.keySet()) {
-            System.out.println("l = " + l);
-        }
         for (Long studentId : videoMap.keySet()) {
             Student student = studentService.findStudentById(studentId);
             String prompt = "내 이름은 " + student.getName() + "이야. 내가 남은 웹강에 대한 정보들을 알려줄게.";
@@ -162,7 +155,6 @@ public class ScheduledTask {
             String content = firstChoice.getJSONObject("message").getString("content");
 
             // 메일 보내기
-            System.out.println("content = " + content);
             emailService.sendEmail(student.getEmail(), content, "emailForm/videoAnnouncement");
 
         }
@@ -207,10 +199,6 @@ public class ScheduledTask {
                 videoLectureName.add("해당 웹강의 과목 이름 : " + allVideoLecture.getSubjectName() + ", 웹강 이름 : " + allVideoLecture.getName() + ", 마감일 : " + allVideoLecture.getDeadline());
             }
 
-            System.out.println("subjectName = " + subjectName);
-            System.out.println("assignmentName = " + assignmentName);
-            System.out.println("videoLectureName = " + videoLectureName);
-
             String prompt = "나의 강의 리스트는 다음과 같아" + subjectName +
                     "그리고 나에게 남은 과제와 웹강은 각각 다음과 같아." + assignmentName + ", " + videoLectureName +
                     "오늘 요일은 " + LocalDate.now().getDayOfWeek() + "이야. 꼭 스케줄에 오늘 요일도 고려해서 넣어줘 " +
@@ -231,7 +219,6 @@ public class ScheduledTask {
             String content = firstChoice.getJSONObject("message").getString("content");
 
             // 리스트화 해서 스케줄에 저장
-            System.out.println("content = " + content);
             List<String> times = new ArrayList<>();
             List<String> contents = new ArrayList<>();
 
@@ -304,10 +291,6 @@ public class ScheduledTask {
             videoLectureName.add("해당 웹강의 과목 이름 : " + allVideoLecture.getSubjectName() + ", 웹강 이름 : " + allVideoLecture.getName() + ", 마감일 : " + allVideoLecture.getDeadline());
         }
 
-        System.out.println("subjectName = " + subjectName);
-        System.out.println("assignmentName = " + assignmentName);
-        System.out.println("videoLectureName = " + videoLectureName);
-
         String prompt = "나의 강의 리스트는 다음과 같아" + subjectName +
                 "그리고 나에게 남은 과제와 웹강은 각각 다음과 같아." + assignmentName + ", " + videoLectureName +
                 "오늘 요일은 " + LocalDate.now().getDayOfWeek() + "이야. 꼭 스케줄에 오늘 요일도 고려해서 넣어줘 " +
@@ -328,7 +311,6 @@ public class ScheduledTask {
         String content = firstChoice.getJSONObject("message").getString("content");
 
         // 리스트화 해서 스케줄에 저장
-        System.out.println("content = " + content);
         List<String> times = new ArrayList<>();
         List<String> contents = new ArrayList<>();
 

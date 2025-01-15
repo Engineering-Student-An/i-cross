@@ -20,9 +20,6 @@ public class SubjectService {
     @Transactional
     public void save(Long id, String code, String name, String day, String hour) {
 
-        System.out.println("code = " + code);
-        System.out.println("day = " + day);
-        System.out.println("hour = " + hour);
         String[] splitCode = code.split("_");
         String[] splitDay = day.split("<BR>");
         String[] splitHour = hour.split("<BR>");

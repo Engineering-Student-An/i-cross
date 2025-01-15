@@ -36,7 +36,6 @@ public class StyleController {
     public String editStyle(Model model) {
         String style = "";
         model.addAttribute("style", style);
-        System.out.println("!!");
         return "style/edit";
     }
 
