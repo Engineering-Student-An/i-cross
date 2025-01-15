@@ -1,0 +1,203 @@
+body {
+    background: #f4f7f6;
+    font-family: 'Noto Sans KR', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    position: relative; /* 추가 */
+    opacity: 0.95;
+}
+
+h2 {
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.add-btn {
+    position: relative; /* 자식 요소를 상대적으로 배치하기 위해 필요 */
+    background-color: #fff;
+    border: 2px solid #000;
+    border-radius: 50%;
+    width: 40px; /* 크기를 약간 키움 */
+    height: 40px; /* 크기를 약간 키움 */
+    font-size: 1.5em;
+    line-height: 1.1;
+    text-align: center;
+    cursor: pointer;
+}
+
+.add-btn::before {
+    content: "+";
+    position: absolute; /* 부모 요소를 기준으로 위치를 조정 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1em; /* + 기호의 크기를 조정 */
+}
+
+.add-btn:hover {
+    background-color: #f0f0f0;
+}
+.kakao-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background: #fee500;
+    border-radius: 5px;
+    text-decoration: none;
+    width: 170px;
+    color: #3d1e1e;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.kakao-btn:hover {
+    background: #e0c200;
+}
+
+.kakao-btn img {
+    width: 20px;
+    margin-right: 10px;
+}
+
+/* 모달 스타일 */
+.modal {
+    display: none;
+    /* 초기에는 모달을 숨김 */
+    position: fixed;
+    /* 모달을 화면에 고정 */
+    z-index: 9999;
+    /* 다른 요소보다 위에 표시 */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    /* 배경을 어둡게 함 */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto 10px auto;
+    /* 모달을 화면 중앙에 표시 */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 65%;
+    max-height: 400px;
+    overflow: auto;
+}
+
+.item {
+    background: #fafafa;
+    padding: 15px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.item p {
+    margin: 0;
+    font-size: 1em;
+}
+
+.item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.item img {
+    width: 20px;
+    cursor: pointer;
+}
+/* 왼쪽 중간에 배치되는 버튼 스타일 */
+.left-btn {
+    position: fixed;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+    animation: bounce 1s infinite; /* 애니메이션 적용 */
+}
+
+.left-btn:hover {
+    background-color: #333;
+}
+
+/* 오른쪽 중간에 배치되는 버튼 스타일 */
+.right-btn {
+    position: fixed;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+    animation: bounce 1s infinite; /* 애니메이션 적용 */
+}
+
+.right-btn:hover {
+    background-color: #333;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(-50%);
+    }
+    50% {
+        transform: translateY(-60%);
+    }
+}
+@keyframes slideIn {
+    from {
+        transform: translateX(-10%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.slide-in {
+    opacity: 0; /* 초기 상태에서 안 보이게 설정 */
+    animation: slideIn 0.3s ease-out forwards;
+}
