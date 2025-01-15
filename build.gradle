@@ -51,6 +51,9 @@ dependencies {
 
     // open ai
     implementation "org.springframework.boot:spring-boot-starter-webflux"
+
+    // pdf 처리
+    implementation 'org.apache.pdfbox:pdfbox:2.0.24'
 }
 
 tasks.named('test') {
