@@ -67,3 +67,6 @@ spring:
 secret:
   apiKey: ${API_KEY}
   weatherApiKey: ${WEATHER_API_KEY}
+
+server:
+  port: 8082
