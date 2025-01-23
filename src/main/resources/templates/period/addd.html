@@ -179,17 +179,11 @@
         $.ajax({
             url: '/reload', // 컨트롤러의 엔드포인트
             type: 'GET',
-            success: function(response) {
-                // 성공적으로 데이터를 받아왔을 때의 처리
-                console.log(response);
+            complete: function() {
                 // 수동으로 리디렉션 수행
                 window.location.href = "/";
-            },
-            error: function(error) {
-                // 에러 처리
-                console.error("Error: ", error);
-                document.getElementById('loading').style.display = 'none';
             }
+
         });
     }
 </script>
