@@ -66,4 +66,14 @@ jobs:
 
           sudo docker run -p ${{ secrets.PORT }}:${{ secrets.PORT }} \
           --name ${{ secrets.PROJECT_NAME }} \
+          -e API_KEY=${{ secrets.API_KEY }} \
+          -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+          -e DB_URL=${{ secrets.DB_URL }} \
+          -e DB_USERNAME=${{ secrets.DB_USERNAME }} \
+          -e KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }} \
+          -e KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }} \
+          -e KAKAO_REDIRECT_URI=${{ secrets.KAKAO_REDIRECT_URI }} \
+          -e MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }} \
+          -e MAIL_USERNAME=${{ secrets.MAIL_USERNAME }} \
+          -e WEATHER_API_KEY=${{ secrets.WEATHER_API_KEY }} \
           -d ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.PROJECT_NAME }}
