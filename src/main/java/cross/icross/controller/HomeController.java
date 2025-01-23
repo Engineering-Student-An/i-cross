@@ -260,9 +260,9 @@ public class HomeController {
         }
 
         // 수강 목록이 비어있으면 아이클래스 정보 다시 가져옴
-        if (loginStudent.getSubjectList().isEmpty()) {
-            return "redirect:/reload";
-        }
+//        if (loginStudent.getSubjectList().isEmpty()) {
+//            return "redirect:/reload";
+//        }
 
         return "home/loadingHome";
     }
