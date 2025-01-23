@@ -131,94 +131,100 @@ public class HomeController {
     @ResponseBody
     public ResponseEntity<String> reloadIclassInfo(Model model) {
 
-        Student loginStudent = (Student) model.getAttribute("loginStudent");
+        try {
+            Student loginStudent = (Student) model.getAttribute("loginStudent");
 
-        // wstoken 가져오기
-        String wstoken = coursemosService.getWstoken();
+            // wstoken 가져오기
+            String wstoken = coursemosService.getWstoken();
 
-        // utoken 가져오기
-        String utoken = coursemosService.login(loginStudent.getStuId(), loginStudent.getPassword(), wstoken);
+            // utoken 가져오기
+            String utoken = coursemosService.login(loginStudent.getStuId(), loginStudent.getPassword(), wstoken);
 
-        // 수강중인 강의의 id 가져오기
-        List<Long> courseIds = coursemosService.getCourseIds(utoken);
-        // 로그인 학생의 수강 목록에 추가
-        for (Long courseId : courseIds) {
-            if(!loginStudent.getSubjectList().contains(courseId)) {
-                studentService.addSubject(loginStudent.getId(), courseId);
-            }
-        }
-
-
-        for (Long courseId : courseIds) {
-            ListPair listPair = coursemosService.getList(utoken, courseId);
-
-            // 웹강 리스트
-            List<VideoLectureDTO> videos = listPair.videoList;
-            // 과제 리스트
-            List<VideoLectureDTO> assigns = listPair.assignList;
-            // 퀴즈 리스트
-            List<VideoLectureDTO> quizs = listPair.quizList;
-
-            Long studentId = ((Student) model.getAttribute("loginStudent")).getId();
-
-            // 새로 저장한 웹강 리스트
-            List<Long> videoIds = new ArrayList<>();
-            // 새로 저장한 과제 리스트
-            List<Long> assignIds = new ArrayList<>();
-            // 새로 저장한 퀴즈 리스트
-            List<Long> quizIds = new ArrayList<>();
-
-            // 웹강 저장
-            for (VideoLectureDTO video : videos) {
-                Long videoId = coursemosService.saveVideo(utoken, video);
-                if(videoId != null) {  videoIds.add(videoId);  }
+            // 수강중인 강의의 id 가져오기
+            List<Long> courseIds = coursemosService.getCourseIds(utoken);
+            // 로그인 학생의 수강 목록에 추가
+            for (Long courseId : courseIds) {
+                if (!loginStudent.getSubjectList().contains(courseId)) {
+                    studentService.addSubject(loginStudent.getId(), courseId);
+                }
             }
 
-            // 웹강 - 학생 저장
-            for (Long videoId : videoIds) {
-                if (!videoLectureService.existsByWebIdAndStudentId(videoId, studentId)) {
-                    if(!allVideoLectureService.findByWebId(videoId).getDeadline().toLocalDate().isBefore(LocalDate.now())) {
-                        videoLectureService.save(videoId, studentId);
+
+            for (Long courseId : courseIds) {
+                ListPair listPair = coursemosService.getList(utoken, courseId);
+
+                // 웹강 리스트
+                List<VideoLectureDTO> videos = listPair.videoList;
+                // 과제 리스트
+                List<VideoLectureDTO> assigns = listPair.assignList;
+                // 퀴즈 리스트
+                List<VideoLectureDTO> quizs = listPair.quizList;
+
+                Long studentId = ((Student) model.getAttribute("loginStudent")).getId();
+
+                // 새로 저장한 웹강 리스트
+                List<Long> videoIds = new ArrayList<>();
+                // 새로 저장한 과제 리스트
+                List<Long> assignIds = new ArrayList<>();
+                // 새로 저장한 퀴즈 리스트
+                List<Long> quizIds = new ArrayList<>();
+
+                // 웹강 저장
+                for (VideoLectureDTO video : videos) {
+                    Long videoId = coursemosService.saveVideo(utoken, video);
+                    if (videoId != null) {
+                        videoIds.add(videoId);
+                    }
+                }
+
+                // 웹강 - 학생 저장
+                for (Long videoId : videoIds) {
+                    if (!videoLectureService.existsByWebIdAndStudentId(videoId, studentId)) {
+                        if (!allVideoLectureService.findByWebId(videoId).getDeadline().toLocalDate().isBefore(LocalDate.now())) {
+                            videoLectureService.save(videoId, studentId);
+                        }
+                    }
+                }
+
+                // 과제 저장
+                for (VideoLectureDTO assign : assigns) {
+                    Long assignId = coursemosService.saveAssign(utoken, assign);
+                    if (assignId != null) assignIds.add(assignId);
+                }
+
+                // 과제 - 학생 저장
+                for (Long assignId : assignIds) {
+                    if (!assignmentService.existsByWebIdAndStudentId(assignId, studentId)) {
+                        if (!allAssignmentService.findByWebId(assignId).getDeadline().toLocalDate().isBefore(LocalDate.now())) {
+                            assignmentService.save(assignId, studentId);
+                        }
+                    }
+                }
+
+                // 퀴즈 (과제) 저장
+                for (VideoLectureDTO quiz : quizs) {
+                    Long quizId = coursemosService.saveQuiz(utoken, quiz);
+                    if (quizId != null) quizIds.add(quizId);
+                }
+
+                // 퀴즈 - 학생 저장
+                for (Long quizId : quizIds) {
+                    if (!assignmentService.existsByWebIdAndStudentId(quizId, studentId)) {
+                        if (!allAssignmentService.findByWebId(quizId).getDeadline().toLocalDate().isBefore(LocalDate.now())) {
+                            assignmentService.save(quizId, studentId);
+                        }
                     }
                 }
             }
 
-            // 과제 저장
-            for (VideoLectureDTO assign : assigns) {
-                Long assignId = coursemosService.saveAssign(utoken, assign);
-                if(assignId != null) assignIds.add(assignId);
-            }
-
-            // 과제 - 학생 저장
-            for (Long assignId : assignIds) {
-                if(!assignmentService.existsByWebIdAndStudentId(assignId, studentId)) {
-                    if(!allAssignmentService.findByWebId(assignId).getDeadline().toLocalDate().isBefore(LocalDate.now())) {
-                        assignmentService.save(assignId, studentId);
-                    }
-                }
-            }
-
-            // 퀴즈 (과제) 저장
-            for (VideoLectureDTO quiz : quizs) {
-                Long quizId = coursemosService.saveQuiz(utoken, quiz);
-                if(quizId != null) quizIds.add(quizId);
-            }
-
-            // 퀴즈 - 학생 저장
-            for (Long quizId : quizIds) {
-                if(!assignmentService.existsByWebIdAndStudentId(quizId, studentId)) {
-                    if(!allAssignmentService.findByWebId(quizId).getDeadline().toLocalDate().isBefore(LocalDate.now())) {
-                        assignmentService.save(quizId, studentId);
-                    }
-                }
-            }
-        }
-
-        // 첫 로그인이나 정보 가져오면 스케줄 새로 생성해줌
-        scheduledTask.firstSchedule(loginStudent.getId());
+            // 첫 로그인이나 정보 가져오면 스케줄 새로 생성해줌
+            scheduledTask.firstSchedule(loginStudent.getId());
 
 //        scheduledTask.announcement();
-        return ResponseEntity.ok("Reload Successful");
+            return ResponseEntity.ok("Reload Successful");
+        } catch (Exception e) {
+            return ResponseEntity.ok("Reload Successful");
+        }
     }
 
 
