@@ -32,7 +32,7 @@ public class ScheduledTask {
     private final VideoLectureService videoLectureService;
 
 
-    @Scheduled(cron = "0 20 22 * * ?") // 매일 자정에 실행
+    @Scheduled(cron = "0 0 0 * * ?") // 매일 자정에 실행
 
     // 과제, 웹강 알림 메일 보내기
     public void announcement() {
