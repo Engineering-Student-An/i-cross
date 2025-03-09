@@ -18,7 +18,7 @@ public class ICrossApplication {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:8080");
+                registry.addMapping("/**").allowedOrigins("http://ec2-13-209-198-107.ap-northeast-2.compute.amazonaws.com:8082");
             }
         };
     }
