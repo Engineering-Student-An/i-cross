@@ -49,6 +49,20 @@ public class HomeController {
 
             // ========================== 모델에 스케줄 추가 ==========================
             model.addAttribute("scheduleList", scheduleService.findByStudentId(loginStudent.getId()));
+        }
+
+        // 모델에 날씨 추가
+        model.addAttribute("weather", weatherService.returnWeather());
+        return "home/index";
+    }
+
+    @GetMapping("/message")
+    public String message(Model model, HttpServletRequest request) {
+        Student loginStudent = (Student) model.getAttribute("loginStudent");
+        if (loginStudent != null) {
+
+            // ========================== 모델에 스케줄 추가 ==========================
+            model.addAttribute("scheduleList", scheduleService.findByStudentId(loginStudent.getId()));
 
             // 스케줄 -> 카톡 보내기
             String code = request.getParameter("code");
@@ -59,8 +73,6 @@ public class HomeController {
 
         }
 
-        // 모델에 날씨 추가
-        model.addAttribute("weather", weatherService.returnWeather());
         return "home/index";
     }
 
