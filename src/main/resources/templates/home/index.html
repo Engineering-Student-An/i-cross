@@ -16,8 +16,9 @@
     </div>
 
     <h2>AI가 추천하는 오늘의 스케줄</h2>
+    <h4>(09시 ~ 00시)</h4>
     <div style="display: flex; justify-content: space-between; margin-bottom: 40px">
-        <div>
+        <div style="display: flex; flex-direction: row; justify-content: start; gap: 10px">
             <button class="add-btn" style="margin-right: 20px" onclick="openModal('scheduleModal', '/schedule/add')"></button>
             <form id="retry-form" action="/schedule" method="get">
                 <button type="submit" class="retry-btn"></button>
