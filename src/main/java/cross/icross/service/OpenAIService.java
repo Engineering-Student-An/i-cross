@@ -61,7 +61,7 @@ public class OpenAIService {
 
 
         JSONObject requestBody = new JSONObject();
-        requestBody.put("model", "gpt-4o-mini-2024-07-18");
+        requestBody.put("model", "gpt-4o");
         requestBody.put("messages", new JSONArray(Arrays.asList(messageSystem, messageUser)));
 
         HttpEntity<String> request = new HttpEntity<>(requestBody.toString(), headers);
@@ -99,7 +99,7 @@ public class OpenAIService {
                 "입력받은 값 중 스타일을 사용해서 말투를 지정합니다. 그리고 그 말투로 해당 학생에게 어떤 웹강 혹은 과제가 며칠 남았는지를 알려줍니다.");
 
         JSONObject requestBody = new JSONObject();
-        requestBody.put("model", "gpt-4o-mini-2024-07-18");
+        requestBody.put("model", "gpt-4o");
         requestBody.put("messages", new JSONArray(Arrays.asList(messageSystem, messageUser)));
 
         HttpEntity<String> request = new HttpEntity<>(requestBody.toString(), headers);
@@ -160,7 +160,7 @@ public class OpenAIService {
                 "\n\n단답식 문제\n1:논리 회로의 입력과 출력 간의 관계를 설명하는 표의 이름은 무엇인가?\n2:전파 지연은 시스템이 입력을 받은 후 출력을 생성하는 데 걸리는 ________를 나타낸다.\n\n답: o/x/1/4/논리관계표/시간");
 
         JSONObject requestBody = new JSONObject();
-        requestBody.put("model", "gpt-4o-mini-2024-07-18");
+        requestBody.put("model", "gpt-4o");
         requestBody.put("messages", new JSONArray(Arrays.asList(messageSystem, messageUser)));
 
         HttpEntity<String> request = new HttpEntity<>(requestBody.toString(), headers);
