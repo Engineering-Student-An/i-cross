@@ -17,7 +17,12 @@
 
     <h2>AI가 추천하는 오늘의 스케줄</h2>
     <div style="display: flex; justify-content: space-between; margin-bottom: 40px">
-        <button class="add-btn" onclick="openModal('scheduleModal', '/schedule/add')"></button>
+        <div>
+            <button class="add-btn" style="margin-right: 20px" onclick="openModal('scheduleModal', '/schedule/add')"></button>
+            <form id="retry-form" action="/schedule" method="get">
+                <button type="submit" class="retry-btn"></button>
+            </form>
+        </div>
         <div>
             <a href="https://kauth.kakao.com/oauth/authorize?client_id=48a5417b39fe6369d6f6ee6a3e1c733c&redirect_uri=http://localhost:8080&response_type=code&scope=talk_message" class="kakao-btn">
                 <img src="/images/kakaotalk.png" alt="카톡 보내기">
@@ -86,5 +91,13 @@
             window.location.href = `/schedule/${scheduleId}/delete`;
         }
     }
+
+    // 스케줄 재생성 버튼
+    // 버튼 클릭 시 폼 제출
+    document.querySelector('.retry-btn').addEventListener('click', function(event) {
+        event.preventDefault(); // 기본 폼 제출 방지
+        document.getElementById('retry-form').submit(); // 폼 제출
+    });
+
 </script>
 </html>

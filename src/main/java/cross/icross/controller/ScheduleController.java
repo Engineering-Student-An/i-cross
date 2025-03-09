@@ -3,6 +3,7 @@ package cross.icross.controller;
 import cross.icross.domain.Student;
 import cross.icross.domain.dto.ScheduleForm;
 import cross.icross.service.ScheduleService;
+import cross.icross.service.ScheduledTask;
 import cross.icross.service.StudentService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ public class ScheduleController {
 
     private final ScheduleService scheduleService;
     private final StudentService studentService;
+    private final ScheduledTask scheduledTask;
 
     @GetMapping("/add")
     public String addScheduleForm(Model model) {
@@ -47,6 +49,15 @@ public class ScheduleController {
 
         // 스케줄 완료 처리
         scheduleService.setCompleted(scheduleId);
+
+        return "redirect:/";
+    }
+
+    @GetMapping
+    public String schedule() {
+        System.out.println("스케줄 재생성!");
+        scheduledTask.clearSchedule();
+        scheduledTask.schedule();
 
         return "redirect:/";
     }

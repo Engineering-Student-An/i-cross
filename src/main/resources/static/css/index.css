@@ -49,6 +49,33 @@ h2 {
 .add-btn:hover {
     background-color: #f0f0f0;
 }
+
+.retry-btn {
+    position: relative; /* 자식 요소를 상대적으로 배치하기 위해 필요 */
+    background-color: #fff;
+    border: 2px solid #000;
+    border-radius: 50%;
+    width: 40px; /* 크기를 약간 키움 */
+    height: 40px; /* 크기를 약간 키움 */
+    font-size: 1.5em;
+    line-height: 1.1;
+    text-align: center;
+    cursor: pointer;
+}
+
+.retry-btn::before {
+    content: "↻"; /* 다시 하기 기호 */
+    position: absolute; /* 부모 요소를 기준으로 위치를 조정 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1em; /* 기호의 크기를 조정 */
+}
+
+.retry-btn:hover {
+    background-color: #f0f0f0;
+}
+
 .kakao-btn {
     display: flex;
     align-items: center;
