@@ -56,6 +56,7 @@ package cross.icross.service;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -70,6 +71,7 @@ public class AuthService extends HttpCallService {
 
     private static final String AUTH_URL = "https://kauth.kakao.com/oauth/token";
 
+    @Value("${}")
     public static String authToken;
 
     public boolean getKakaoAuthToken(String code) {
@@ -83,7 +85,7 @@ public class AuthService extends HttpCallService {
         parameters.add("code", code);
         parameters.add("grant_type", "authorization_code");
         parameters.add("client_id", "48a5417b39fe6369d6f6ee6a3e1c733c");
-        parameters.add("redirect_uri", "http://localhost:8080");
+        parameters.add("redirect_uri", "http://ec2-13-209-198-107.ap-northeast-2.compute.amazonaws.com:8082");
         parameters.add("client_secret", "97lLhgeeDq0S5XZ6RWdAhh0SyCzBaOOd");
         parameters.add("scope", "talk_message"); // 필요한 권한을 요청하는 부분 추가
 
