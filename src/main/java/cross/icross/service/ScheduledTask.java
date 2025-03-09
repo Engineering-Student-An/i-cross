@@ -199,11 +199,13 @@ public class ScheduledTask {
                 videoLectureName.add("해당 웹강의 과목 이름 : " + allVideoLecture.getSubjectName() + ", 웹강 이름 : " + allVideoLecture.getName() + ", 마감일 : " + allVideoLecture.getDeadline());
             }
 
+            if(assignmentName.isEmpty()) assignmentName.add("수업 없음.");
+
             String prompt = "나의 강의 리스트는 다음과 같아" + subjectName +
                     "그리고 나에게 남은 과제와 웹강은 각각 다음과 같아." + assignmentName + ", " + videoLectureName +
                     "오늘 요일은 " + LocalDate.now().getDayOfWeek() + "이야. 꼭 스케줄에 오늘 요일도 고려해서 넣어줘 " +
                     "나에게 오늘 하루 추천 스케줄을 알려줘, 이때 복습, 휴식, 점심시간, 저녁시간도 고려해서 넣어줘 반드시 오전 9시부터 24시까지의 스케줄을 알려줘야만 해" +
-                    "그리고 오늘 진행하는 강의 이외의 강의는 절대 오늘 시간표에 넣지마" +
+                    "그리고 오늘 진행하는 강의 이외의 강의는 절대 오늘 시간표에 넣지마. 예를 들어 오늘 수업 없음 이라면 시간표에 강의를 아무것도 넣지 말라는 소리야." +
                     "강의 시간도 정확하게 고려해서 작성해줘. 10:30-12:00 수업인데 12:00-13:30 수업으로 잘못 쓰지 말라는 이야기야.";
 
 
