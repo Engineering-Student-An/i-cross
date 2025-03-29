@@ -35,7 +35,6 @@ public class HomeController {
 
     private final AuthService authService;
     private final CustomMessageService customMessageService;
-
     private final ScheduledTask scheduledTask;
     private final CoursemosService coursemosService;
 
@@ -258,11 +257,6 @@ public class HomeController {
         if (loginStudent.getAnnouncementPeriod().isEmpty()) {
             return "redirect:/period/add";
         }
-
-        // 수강 목록이 비어있으면 아이클래스 정보 다시 가져옴
-//        if (loginStudent.getSubjectList().isEmpty()) {
-//            return "redirect:/reload";
-//        }
 
         return "home/loadingHome";
     }
