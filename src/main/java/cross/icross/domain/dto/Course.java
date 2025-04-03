@@ -47,9 +47,6 @@ public class Course {
     @JsonProperty("semester_code")
     private String semesterCode;
 
-//    @JsonProperty("roles")
-//    private String roles;
-
     @JsonProperty("setting")
     private Long setting;
 
