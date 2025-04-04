@@ -219,7 +219,6 @@ public class HomeController {
             // 첫 로그인이나 정보 가져오면 스케줄 새로 생성해줌
             scheduledTask.firstSchedule(loginStudent.getId());
 
-//        scheduledTask.announcement();
             return ResponseEntity.ok("Reload Successful");
         } catch (Exception e) {
             return ResponseEntity.ok("Reload Successful");
