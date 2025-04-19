@@ -39,10 +39,4 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // bcrpytpasswordEncoder
-//    @Bean
-//    public BCryptPasswordEncoder bCryptPasswordEncoder(){
-//
-//        return new BCryptPasswordEncoder();
-//    }
 }
