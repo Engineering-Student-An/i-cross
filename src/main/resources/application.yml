@@ -38,6 +38,7 @@ spring:
             scope:
               - account_email
               - profile_nickname
+              - talk_message
             authorization-grant-type: authorization_code
             redirect-uri: ${KAKAO_REDIRECT_URI}
             client-name: Kakao
