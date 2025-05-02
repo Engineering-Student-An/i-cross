@@ -288,7 +288,7 @@ public class CoursemosService {
 
         Document doc = (Document) Jsoup.parse(response);
 
-//         "출석인정기간"에 해당하는 span 요소를 찾습니다.
+        // "출석인정기간"에 해당하는 span 요소를 찾습니다.
         Elements vodInfoElements = doc.select("div.vod_info");
         for (Element element : vodInfoElements) {
             Elements infoLabels = element.getElementsByClass("vod_info");
